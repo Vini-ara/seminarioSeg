@@ -1,11 +1,15 @@
 {
   "name": "pt2023",
   "version": "1.0.0",
-  "description": "",
+  "description": "Blog CJR",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^2.0.22"
+  }
 }
