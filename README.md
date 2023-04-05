@@ -28,3 +28,9 @@ Como exemplo achei esse artigo [aqui](https://medium.com/swlh/writing-a-front-en
  configuração.
  
  A ideia é fazer com que o backend sirva os arquivos estáticos do front e também sirva a api.
+ 
+ Para servir os arquivos estáticos do front é só usar um middleware que já vem com o express que é `express.static()`.
+ 
+ O link do figjam com o modelo do BD e com um pequeno diagrama de fluxo do projeto segue abaixo:
+ 
+ - [figjam](https://www.figma.com/file/YA7KLaJKhl5O8huNltqmgE/BD---PT-2023.1?t=VXZfMDTWgKh29dSv-0)
