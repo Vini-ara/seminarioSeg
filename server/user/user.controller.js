@@ -13,23 +13,29 @@ export class UserController {
     this.router.delete("/:id", this.delete.bind(this));
   }
 
-  create(req, res) {
-    res.json(this.userService.create(req.body));
+  async create(req, res) {
+    const user = await this.userService.create(req.body)
+
+    res.status(201).json(user);
   }
 
-  findAll(req, res) {
-    res.json(this.userService.findAll());
+  async findAll(req, res) {
+    const users = await this.userService.findAll()
+    res.json(users);
   }
 
-  findOne(req, res) {
-    res.json(this.userService.findOne(req.params.id));
+  async findOne(req, res) {
+    const user = await this.userService.findOne(req.params.id)
+    res.json(user);
   }
 
-  update(req, res) {
-    res.json(this.userService.update(req.params.id));
+  async update(req, res) {
+    const user = await this.userService.update(req.params.id)
+    res.json(user);
   }
 
-  delete(req, res) {
-    res.json(this.userService.delete(req.params.id));
+  async delete(req, res) {
+    const user = await this.userService.delete(req.params.id)
+    res.json(user);
   }
 }
