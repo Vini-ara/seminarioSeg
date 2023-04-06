@@ -1,16 +1,16 @@
 import express from "express";
 
 export class UserController {
-  #basePath = "/user";
+  basePath = "/user";
 
   constructor(userService) {
     this.userService = userService;
     this.router = express.Router();
-    this.router.post(`${this.#basePath}/`, this.create.bind(this));
-    this.router.get(`${this.#basePath}/`, this.findAll.bind(this));
-    this.router.get(`${this.#basePath}/:id`, this.findOne.bind(this));
-    this.router.put(`${this.#basePath}/:id`, this.update.bind(this));
-    this.router.delete(`${this.#basePath}/:id`, this.delete.bind(this));
+    this.router.post("/", this.create.bind(this));
+    this.router.get("/", this.findAll.bind(this));
+    this.router.get("/:id", this.findOne.bind(this));
+    this.router.put("/:id", this.update.bind(this));
+    this.router.delete("/:id", this.delete.bind(this));
   }
 
   create(req, res) {
