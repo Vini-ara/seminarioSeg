@@ -2,9 +2,9 @@
   "name": "pt2023",
   "version": "1.0.0",
   "description": "Blog CJR",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "dev": "nodemon server/index.js",
+    "dev": "nodemon server/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
