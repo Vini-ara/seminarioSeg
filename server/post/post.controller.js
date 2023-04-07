@@ -46,7 +46,7 @@ export class PostController {
   async update(req, res, next) {
     try {
       const updatePostDto = UpdatePostDto.fromRequest(req.body);
-      const post = await this.postService.update(+req.params.id);
+      const post = await this.postService.update(+req.params.id, updatePostDto);
       res.json(post);
     } catch (err) {
       next(err);
