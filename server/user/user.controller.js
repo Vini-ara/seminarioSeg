@@ -12,7 +12,7 @@ export class UserController {
     this.router.get("/", this.findAll.bind(this));
     this.router.get("/:id", this.findOne.bind(this));
     this.router.put("/:id", this.update.bind(this));
-    this.router.delete("/:id", this.delete.bind(this));
+    this.router.delete("/:id", this.remove.bind(this));
   }
 
   async create(req, res, next) {
@@ -53,9 +53,9 @@ export class UserController {
     }
   }
 
-  async delete(req, res, next) {
+  async remove(req, res, next) {
     try {
-      const user = await this.userService.delete(+req.params.id);
+      const user = await this.userService.remove(+req.params.id);
       res.json(user);
     } catch (err) {
       next(err);
