@@ -13,7 +13,7 @@ export class UpdateUserDto {
 
     for (const key in body)
       if (!updateUserDto[key])
-        throw new Error(`Missing field: ${key}`);
+        throw new Error(`Invalid field: ${key}`);
 
     return updateUserDto;
   }
