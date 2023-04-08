@@ -2,6 +2,7 @@ import express from "express";
 import { PrismaClient } from "@prisma/client";
 import { UserModule } from "./user/user.module.js";
 import { PostModule } from "./post/post.module.js";
+import { CommentModule } from "./comment/comment.module.js";
 import errorHandler from "./middlewares/error-handler.js";
 
 export class AppModule {
@@ -9,10 +10,12 @@ export class AppModule {
     const prisma = new PrismaClient();
     this.userModule = new UserModule(prisma);
     this.postModule = new PostModule(prisma);
+    this.commentModule = new CommentModule(prisma);
     this.router = express
       .Router()
       .use(this.userModule.router)
       .use(this.postModule.router)
+      .use(this.commentModule.router)
       .use(errorHandler);
   }
 }
