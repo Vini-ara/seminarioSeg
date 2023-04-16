@@ -46,3 +46,8 @@ header .info button {
   font-weight: bold;
   cursor: pointer;
 }
+
+header .info a, header .info a:visited {
+  color: white;
+  text-decoration: none;
+}

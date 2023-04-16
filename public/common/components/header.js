@@ -26,7 +26,9 @@ var header = (user) => {
         <img src=${user.img} alt="user profile picture">
       ` : `
         <p>Cadastre-se</p> 
-        <button type="button">Entrar</button> 
+        <button type="button">
+          <a href="../login">Entrar</a>
+        </button> 
       `
 
     setHandlers()
