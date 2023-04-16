@@ -1,0 +1,48 @@
+header {
+  height: 4rem;
+  width: 100%;
+  background-color: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  color: white
+}
+
+header .logo {
+  cursor: pointer;
+}
+
+header .info {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  gap: 1rem;
+}
+
+header .info p {
+  cursor: pointer
+}
+
+header .info img {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  object-fit: fill;
+}
+
+header .info .username {
+  font-size: 1.15rem;
+}
+
+header .info button {
+  background-color: var(--daker-blue);
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  border-radius: .75rem;
+  padding: .75rem 1rem;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}

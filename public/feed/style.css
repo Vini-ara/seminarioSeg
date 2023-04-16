@@ -1,0 +1,74 @@
+@import "../common/styles/global.css";
+@import "../common/styles/header.css";
+
+.feed {
+  width: 40%;
+  margin: 0 auto;
+  padding-top: 2rem;
+
+  border-style: solid;
+  border-width: 0 1px 0 1px;
+  border-color: #71767B;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 2rem;
+}
+
+.feed .post {
+  width: 98%;
+  padding: 1rem 1.5rem;
+
+  background-color: var(--lighter-blue);
+  color: white;
+
+  border-radius: 1.5rem;
+}
+
+.feed .post .post-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;  
+  margin-bottom: .5rem;
+}
+
+.feed .post .post-header img {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.feed .post .post-header span {
+  font-size: .75rem;
+  margin-left: .5rem;
+  font-weight: regular;
+  position: relative;
+  opacity: .5; 
+}
+
+.feed .post .post-header span::before {
+  content: "";
+  height: .25rem;
+  width: .25rem;
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  top: 50%;
+  left: -.75rem;
+  transform: translateY(-50%);
+  opacity: .5;
+}
+
+.feed .post .post-content {
+  width: calc(100% - 4rem);
+  margin-left: auto;
+}
+
+.feed .post .post-actions {
+  width: calc(100% - 4rem);
+  margin-top: 1rem;
+  margin-left: auto;
+}

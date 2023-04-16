@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'); 
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --lighter-blue: #222E50;
+  --daker-blue:   #111E3E;
+  --green:        #8BC34A;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--daker-blue);
+}
+
+button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
