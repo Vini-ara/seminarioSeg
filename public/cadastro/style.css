@@ -1,0 +1,52 @@
+@import "../common/styles/global.css";
+@import "../common/styles/header.css";
+
+body {
+    min-height: 100vh;
+}
+
+main {
+    margin-top: auto;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+}
+
+form {
+  width: 25%;
+  padding: 2rem 0;
+
+  background-color: var(--lighter-blue);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  border-radius: .5rem;
+}
+
+input {
+  width: 75%;
+  border-radius: .75rem;
+  padding: 1rem 1rem;
+  border-radius: .75rem;
+  border: none;
+  background: var(--light-gray);
+  font-weight: 700;
+}
+
+form a:link, form a:visited {
+  color: var(--darker-blue);
+}
+
+form button {
+  width: 50%;
+  padding: 1rem 1.5rem;
+  background: var(--light-gray);
+  border-radius: .75rem;
+
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--lighter-blue);
+}
