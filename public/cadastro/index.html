@@ -1,35 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="./style.css">
-        <title>Cadastre-se</title>
-    </head>
-    <body>
-        <header id="header">
-            <div class="logo">
-                <a href="../feed">
-                    <img src="../common/assets/Logo.png" alt="logo">
-                </a>
-            </div>
-            <div class="info">
-            </div> 
-        </header>
-        <main>
-            <img src="../common/assets/fundoCjr.png" alt="fundo">
-            <form>
-                <img src="../common/assets/pfp.png" alt="pfp">
-                <input type="text" name="nome" placeholder="Nome">
-                <input type="text" name="genero" placeholder="Genêro">
-                <input type="text" name="cargo" placeholder="cargo">
-                <input type="email" name="email" placeholder="E-mail">
-                <input type="password" name="password" placeholder="Senha">
-                <a href="../login">Possui conta? Acesse aqui!</a>
-                <button type="submit">Cadastrar</button>
-            </form>
-        </main>
 
-        <script src="script.js" type="module"></script>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Cadastre-se</title>
+</head>
+
+<body>
+    <header id="header">
+        <div class="logo">
+            <a href="../feed">
+                <img src="../common/assets/Logo.png" alt="logo">
+            </a>
+        </div>
+        <div class="info">
+        </div>
+    </header>
+    <main>
+        <img src="../common/assets/fundoCjr.png" class="fundo" alt="fundo">
+        <form>
+            <img src="../common/assets/pfp.png" alt="pfp" id="profilePicInput">
+            <input type="file" name="photo" id="imageInput">
+            <label for="imageInput" class="fileInput">
+                <img src="../common/assets/IconeCamera.png" alt="imagem de input">
+            </label>
+            <input type="text" name="nome" placeholder="Nome" required>
+            <input type="text" name="genero" placeholder="Genêro" required>
+            <input type="text" name="cargo" placeholder="cargo" required>
+            <input type="email" name="email" placeholder="E-mail" required>
+            <input type="password" name="password" placeholder="Senha" required>
+            <a href="../login">Possui conta? Acesse aqui!</a>
+            <button type="submit">Cadastrar</button>
+        </form>
+    </main>
+
+    <script src="script.js" type="module"></script>
+</body>
+
 </html>

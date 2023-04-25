@@ -9,11 +9,11 @@ main {
     margin-top: auto;
     display: flex;
     align-items: center; 
-    justify-content: center;
+    justify-content: space-around;
 }
 
 form {
-  width: 25%;
+  width: 35%;
   padding: 2rem 0;
 
   background-color: var(--lighter-blue);
@@ -24,6 +24,9 @@ form {
   gap: 1rem;
 
   border-radius: .5rem;
+  
+  margin: 2rem 0;
+  position: relative;
 }
 
 input {
@@ -50,3 +53,25 @@ form button {
   font-size: 1rem;
   color: var(--lighter-blue);
 }
+
+.fundo {
+    width: 50vw;
+}
+
+#imageInput {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.fileInput {
+    position: absolute;
+    cursor: pointer;
+    
+    top: 13.5rem;
+    right: 11.5rem;
+    z-index: 999;
+}
+
