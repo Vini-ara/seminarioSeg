@@ -27,21 +27,21 @@
   border-radius: 1.5rem;
 }
 
-.feed .post .post-header {
+.feed .post .postHeader {
   display: flex;
   align-items: center;
   gap: 1rem;  
   margin-bottom: .5rem;
 }
 
-.feed .post .post-header img {
+.feed .post .postHeader img {
   height: 3rem;
   width: 3rem;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.feed .post .post-header span {
+.feed .post .postHeader span {
   font-size: .75rem;
   margin-left: .5rem;
   font-weight: regular;
@@ -49,7 +49,7 @@
   opacity: .5; 
 }
 
-.feed .post .post-header span::before {
+.feed .post .postHeader span::before {
   content: "";
   height: .25rem;
   width: .25rem;
@@ -62,12 +62,12 @@
   opacity: .5;
 }
 
-.feed .post .post-content {
+.feed .post .postContent {
   width: calc(100% - 4rem);
   margin-left: auto;
 }
 
-.feed .post .post-actions {
+.feed .post .postActions {
   width: calc(100% - 4rem);
   margin-top: 1rem;
   margin-left: auto;

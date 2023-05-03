@@ -25,7 +25,7 @@ var header = (user) => {
         <p class="username"> ${user.name} </p>
         <img src=${user.img} alt="user profile picture">
       ` : `
-        <p>Cadastre-se</p> 
+        <a href="../cadastro">Cadastre-se</a> 
         <button type="button">
           <a href="../login">Entrar</a>
         </button> 

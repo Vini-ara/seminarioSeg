@@ -75,3 +75,9 @@ form button {
     z-index: 999;
 }
 
+#profilePicInput {
+    height: 17rem;
+    width: 17rem;
+    border-radius: 50%;
+    object-fit: contain;
+}

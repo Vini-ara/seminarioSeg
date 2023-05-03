@@ -4,8 +4,7 @@
 form {
   width: 25%;
   margin: auto; 
-  margin-top: calc(50vh - 5rem);
-  transform: translateY(-50%);
+  margin-top: 4rem;
   padding: 2rem 0;
 
   background-color: var(--lighter-blue);
