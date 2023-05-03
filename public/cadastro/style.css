@@ -26,7 +26,6 @@ form {
   border-radius: .5rem;
   
   margin: 2rem 0;
-  position: relative;
 }
 
 input {
@@ -58,6 +57,14 @@ form button {
     width: 50vw;
 }
 
+.formImage {
+  width: 100%;
+  height: fit-content;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
 #imageInput {
     display: none;
     visibility: hidden;
@@ -70,8 +77,8 @@ form button {
     position: absolute;
     cursor: pointer;
     
-    top: 13.5rem;
-    right: 11.5rem;
+    bottom: 7.5%;
+    right: 32.5%;
     z-index: 999;
 }
 

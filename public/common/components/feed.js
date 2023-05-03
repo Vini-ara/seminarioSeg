@@ -1,28 +1,27 @@
-const posts = [
-  {
-    id: 1,
-    content: "Hello there",
-    updatedAt: "2023-05-03T14:53:57.214Z",
-    createdAt: "2023-05-03T14:53:57.214Z",
-    user: {
-      id: 1,
-      email: "jhondoe@gmail.com",
-      username: "jhondoe",
-      name: "Jhon Doe Douglas",
-      image: "../common/akaza.jpg",
-      createdAt: "2023-05-03T14:34:54.730Z",
-    },
-  },
-];
-
 export var feed = (rootElement, postList) => {
-  postList.forEach((post) => {
-    rootElement.innerHTML = `
-                <div class="post">
+  let dateNormalization = (date) => {
+    let newDate = new Date(date)
+
+    const options = { month: 'long', day: 'numeric', year: 'numeric' }
+
+    return newDate.toLocaleDateString('pt-BR', options)
+  }
+
+  let render = () => {
+    while(rootElement.firstChild)
+      rootElement.removeChild(rootElement.lastChild)
+
+    let inner = ""
+
+    postList.forEach((post) => {
+      let postElem = document.createElement("div")
+      postElem.classList.add("post")
+
+      postElem.innerHTML = `
                     <div class="postHeader">
                         <img src="${post.user.image}" alt="foto de perfil"> 
                         <h4>${post.user.name}</h4>
-                        <span>${post.updatedAt}</span>
+                        <span>${dateNormalization(post.updatedAt)}</span>
                     </div> 
                     <div class="postContent">
                       ${post.content}
@@ -32,9 +31,10 @@ export var feed = (rootElement, postList) => {
                             <img src="../common/assets/Comment.png" alt="Comment button">
                         </button>
                     </div>
-                </div> 
-        `;
-  });
+        `
+      rootElement.appendChild(postElem)
+    })
+  }
 
-  rootElement.appendChild();
-};
+  return { render }
+}
