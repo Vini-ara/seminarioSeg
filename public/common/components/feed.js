@@ -1,23 +1,31 @@
 const posts = [
-    {
-        userInfo: {},
-        postContent: {}
-    }
-]
+  {
+    id: 1,
+    content: "Hello there",
+    updatedAt: "2023-05-03T14:53:57.214Z",
+    createdAt: "2023-05-03T14:53:57.214Z",
+    user: {
+      id: 1,
+      email: "jhondoe@gmail.com",
+      username: "jhondoe",
+      name: "Jhon Doe Douglas",
+      image: "../common/akaza.jpg",
+      createdAt: "2023-05-03T14:34:54.730Z",
+    },
+  },
+];
 
-var feed = (rootElement, postList) => {
-    postList.forEach(post => {
-        rootElement.innerHTML = `
+export var feed = (rootElement, postList) => {
+  postList.forEach((post) => {
+    rootElement.innerHTML = `
                 <div class="post">
                     <div class="postHeader">
-                        <img src="../common/assets/akaza.jpg" alt="foto de perfil"> 
-                        <h4>Fulaninho de tal</h4>
-                        <span>17 mar 2023</span>
+                        <img src="${post.user.image}" alt="foto de perfil"> 
+                        <h4>${post.user.name}</h4>
+                        <span>${post.updatedAt}</span>
                     </div> 
                     <div class="postContent">
-                        Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.
-                        Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.
-                        Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.
+                      ${post.content}
                     </div>
                     <div class="postActions">
                         <button type="button">
@@ -25,13 +33,8 @@ var feed = (rootElement, postList) => {
                         </button>
                     </div>
                 </div> 
-        `
+        `;
+  });
 
-
-
-        e
-    })
-
-    rootElement.appendChild();
-
-}
+  rootElement.appendChild();
+};

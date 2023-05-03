@@ -6,6 +6,7 @@ export class CreateUserDto {
     this.name = body.name;
     this.gender = body.gender;
     this.cargoId = body.cargoId;
+    this.image = body.image;
   }
 
   static fromRequest(body) {
