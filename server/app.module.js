@@ -6,6 +6,8 @@ import { CommentModule } from "./comment/comment.module.js";
 import errorHandler from "./middlewares/error-handler.js";
 
 export class AppModule {
+  basePath = '/api'
+
   constructor() {
     const prisma = new PrismaClient();
     this.userModule = new UserModule(prisma);
@@ -13,9 +15,9 @@ export class AppModule {
     this.commentModule = new CommentModule(prisma);
     this.router = express
       .Router()
-      .use(this.userModule.router)
-      .use(this.postModule.router)
-      .use(this.commentModule.router)
+      .use(this.basePath, this.userModule.router)
+      .use(this.basePath, this.postModule.router)
+      .use(this.basePath, this.commentModule.router)
       .use(errorHandler);
   }
 }

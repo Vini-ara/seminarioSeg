@@ -1,5 +1,5 @@
-import { header } from "../common/components/header.js";
-import { feed } from "../common/components/feed.js";
+import { header } from "../src/header.js";
+import { feed } from "../src/feed.js";
 
 header({
   name: "Vinizada",

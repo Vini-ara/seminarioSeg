@@ -1,4 +1,4 @@
-import { header } from "../common/components/header.js";
+import { header } from "../src/header.js";
 
 header({
   name: "Vinizada",

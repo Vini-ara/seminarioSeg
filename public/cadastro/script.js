@@ -1,5 +1,5 @@
-import { api } from "../common/components/api.js"
-import { header } from "../common/components/header.js"
+import { api } from "../src/api.js"
+import { header } from "../src/header.js"
 
 header({
   name: "Vinizada",
