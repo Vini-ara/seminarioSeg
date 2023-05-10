@@ -1,43 +1,31 @@
-var header = (user) => {
+import { auth } from "./auth.js";
+
+var header = () => {
   let state = {
-    logged: false
-  }
+    logged: false,
+  };
 
-  let root = document.querySelector(".info")
-
-  let handleBtnClick = () => {
-    state.logged = state.logged ? false : true
-
-    render()
-  }
-
-  let setHandlers = () => {
-    let btn = root.querySelector("button")
-
-    if(btn) {
-      btn.addEventListener('click', handleBtnClick)
-    }
-  }
+  let root = document.querySelector(".info");
 
   let render = () => {
-    root.innerHTML = state.logged ? 
+    if (auth.state.user) state.logged = true;
+
+    root.innerHTML = state.logged
+      ? `
+        <p class="username"> ${auth.state.user?.username} </p>
+        <img src=${auth.state.user?.image} alt="user profile picture">
       `
-        <p class="username"> ${user.name} </p>
-        <img src=${user.img} alt="user profile picture">
-      ` : `
+      : `
         <a href="../cadastro">Cadastre-se</a> 
         <button type="button">
           <a href="../login">Entrar</a>
         </button> 
-      `
-
-    setHandlers()
-  }
+      `;
+  };
 
   return {
-    root,
-    render
-  } 
-}
+    render,
+  };
+};
 
-export { header }
+export { header };

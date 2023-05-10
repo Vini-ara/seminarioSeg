@@ -1,20 +1,36 @@
 import express from "express";
+import authorization from "../middlewares/authorization.js";
 
 export class AuthController {
-  basePath = "auth"  
+  basePath = "/auth";
 
   constructor(authService) {
     this.authService = authService;
     this.router = express.Router();
-    this.router.post('/login', this.login.bind(this))
+    this.router.post("/login", this.login.bind(this));
+    this.router.get("/refresh", authorization, this.refresh.bind(this));
   }
 
-  login(req, res, next) {
+  async login(req, res, next) {
     try {
-      const accessToken = this.authService.generateAcessToken(req.user.id, req.user.name, req.user.is_admin)
-      res.status(200).json(accessToken)
+      const response = await this.authService.generateAccessToken(
+        req.body.email,
+        req.body.password
+      );
+
+      res.status(200).json(response);
     } catch (err) {
-      next(err)
+      next(err);
+    }
+  }
+
+  async refresh(req, res, next) {
+    try {
+      const response = await this.authService.refreshAuth(req.user.id);
+
+      res.status(200).json(response);
+    } catch (err) {
+      next(err);
     }
   }
 }

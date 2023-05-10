@@ -1,6 +1,45 @@
-import { header } from "../src/header.js"
+import { header } from "../src/header.js";
+import { auth } from "../src/auth.js";
 
-header({
-  name: "Vinizada",
-  img: "https://images.unsplash.com/photo-1587691592099-24045742c181?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1173&q=80"
-}).render()
+const head = header();
+
+var formLogin = () => {
+  let elements = {
+    form: document.querySelector("form"),
+    email: document.querySelector('input[name="email"]'),
+    senha: document.querySelector('input[name="senha"]'),
+  };
+
+  let state = {
+    email: "",
+    senha: "",
+  };
+
+  let formSetup = () => {
+    elements.form.addEventListener("submit", formSubmit);
+
+    elements.email.addEventListener("change", (e) => {
+      state.email = e.target.value;
+    });
+
+    elements.senha.addEventListener("change", (e) => {
+      state.senha = e.target.value;
+    });
+  };
+
+  let formSubmit = async (e) => {
+    e.preventDefault();
+
+    await auth.login(state.email, state.senha);
+
+    head.render();
+    elements.form.reset();
+  };
+
+  return {
+    formSetup,
+  };
+};
+
+formLogin().formSetup();
+head.render();

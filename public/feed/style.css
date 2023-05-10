@@ -1,14 +1,17 @@
 @import "../common/styles/global.css";
 @import "../common/styles/header.css";
 
+/*--- Feed de posts ---*/
 .feed {
   width: 40%;
   margin: 0 auto;
   padding-top: 2rem;
 
+  min-height: calc(100vh - 4rem);
+
   border-style: solid;
   border-width: 0 1px 0 1px;
-  border-color: #71767B;
+  border-color: #71767b;
 
   display: flex;
   flex-direction: column;
@@ -17,6 +20,17 @@
   gap: 2rem;
 }
 
+.openModalBtn {
+  align-self: flex-start;
+  color: white;
+  font-weight: bold;
+  background: var(--green);
+  border-radius: 1rem;
+  padding: 0.75rem;
+  margin-left: 1%;
+}
+
+/*--- Posts ---*/
 .feed .post {
   width: 98%;
   padding: 1rem 1.5rem;
@@ -30,8 +44,8 @@
 .feed .post .postHeader {
   display: flex;
   align-items: center;
-  gap: 1rem;  
-  margin-bottom: .5rem;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .feed .post .postHeader img {
@@ -42,24 +56,24 @@
 }
 
 .feed .post .postHeader span {
-  font-size: .75rem;
-  margin-left: .5rem;
+  font-size: 0.75rem;
+  margin-left: 0.5rem;
   font-weight: regular;
   position: relative;
-  opacity: .5; 
+  opacity: 0.5;
 }
 
 .feed .post .postHeader span::before {
   content: "";
-  height: .25rem;
-  width: .25rem;
+  height: 0.25rem;
+  width: 0.25rem;
   position: absolute;
   background-color: white;
   border-radius: 50%;
   top: 50%;
-  left: -.75rem;
+  left: -0.75rem;
   transform: translateY(-50%);
-  opacity: .5;
+  opacity: 0.5;
 }
 
 .feed .post .postContent {
@@ -71,4 +85,108 @@
   width: calc(100% - 4rem);
   margin-top: 1rem;
   margin-left: auto;
+}
+
+/*--- Modal ---*/
+
+.modalOverlay {
+  min-width: 100vw;
+  min-height: 100vh;
+
+  position: fixed;
+  top: 0;
+  z-index: 99;
+
+  display: flex;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal {
+  height: fit-content;
+  width: 50vw;
+
+  margin: auto;
+  padding: 2rem;
+
+  background: var(--darker-blue);
+
+  border-radius: 1rem;
+}
+
+.modalActions {
+  width: fit-content;
+  margin-left: auto;
+  margin-top: 1rem;
+}
+
+.modalActions button {
+  color: white;
+  font-weight: bold;
+  font-size: 1.15rem;
+}
+
+.modalSubmitBtn {
+  margin-left: 1rem;
+  background-color: var(--green);
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+}
+
+/*--- Markdown Editor ---*/
+
+.editor-toolbar {
+  background-color: var(--lighter-blue) !important;
+  border-radius: 1rem 1rem 0 0 !important;
+  border: none !important;
+  border-bottom: 1px solid white !important;
+  opacity: 1 !important;
+  color: white !important;
+}
+
+.CodeMirror {
+  background-color: var(--lighter-blue) !important;
+  border-radius: 0 0 1rem 1rem !important;
+  border: none !important;
+  height: 50vh !important;
+  color: white !important;
+}
+
+.CodeMirror-cursor {
+  border-left: 2px solid #fff !important;
+}
+
+.editor-statusbar {
+  display: none;
+  visibility: hidden;
+}
+
+.fa::before:hover {
+  filter: brightness(0.8) !important;
+}
+
+.editor-toolbar.disabled-for-preview a:not(.no-disable) {
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+
+.editor-toolbar a:hover,
+.editor-toolbar a.active {
+  background: rgba(0, 0, 0, 0.3) !important;
+}
+
+.fa::before {
+  color: white !important;
+}
+
+.editor-preview {
+  background-color: var(--lighter-blue) !important;
+}
+
+.editor-preview p {
+  text-align: center;
+}
+
+.editor-preview p img {
+  width: 80% !important;
 }
