@@ -69,7 +69,9 @@ var formCadastro = () => {
     });
   };
 
-  let formSubmit = async () => {
+  let formSubmit = async (e) => {
+    e.preventDefault()
+
     const requestBody = {
       email: state.email,
       username: state.nome,

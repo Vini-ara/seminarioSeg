@@ -10,12 +10,11 @@ export default function (req, res, next) {
       var decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
       req.user = decoded;
+      next();
     } catch (err) {
       res.status(403).json({ message: err.message });
     }
   } else {
     res.status(403).json({ message: "Not authorized get Resource" });
   }
-
-  next();
 }

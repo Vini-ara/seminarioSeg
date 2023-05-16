@@ -47,11 +47,11 @@ export class AuthService {
   }
 
   async generateAccessToken(email, password) {
-    const user = await this.prismaService.user.findUniqueOrThrow({
+    const user = await this.prismaService.user.findUnique({
       where: { email },
     });
 
-    if (user.password != password) {
+    if (user?.password != password || !user) {
       throw new Error("usuario ou senha invalidos");
     }
 

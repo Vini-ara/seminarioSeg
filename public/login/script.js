@@ -1,5 +1,6 @@
 import { header } from "../src/header.js";
 import { auth } from "../src/auth.js";
+import { api } from "../src/api.js";
 
 const head = header();
 
@@ -29,6 +30,9 @@ var formLogin = () => {
 
   let formSubmit = async (e) => {
     e.preventDefault();
+
+    state.email = elements.email.value;
+    state.senha = elements.senha.value;
 
     await auth.login(state.email, state.senha);
 

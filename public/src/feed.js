@@ -1,40 +1,28 @@
-export var feed = (rootElement, postList) => {
-  let dateNormalization = (date) => {
-    let newDate = new Date(date)
+import { post } from './post.js'
 
-    const options = { month: 'long', day: 'numeric', year: 'numeric' }
+export const feed = (rootElement = document.querySelector(".feed")) => {
+  var state = {
+    posts: []
+  }
 
-    return newDate.toLocaleDateString('pt-BR', options)
+  let setPosts = (postList) => {
+    state.posts = postList
+    render()
   }
 
   let render = () => {
     while(rootElement.firstChild)
       rootElement.removeChild(rootElement.lastChild)
 
-    let inner = ""
+    for(let i = state.posts.length - 1; i >= 0; i--) {
+      let newPost = post(state.posts[i], state.posts[i].user) 
 
-    postList.forEach((post) => {
-      let postElem = document.createElement("div")
-      postElem.classList.add("post")
-
-      postElem.innerHTML = `
-                    <div class="postHeader">
-                        <img src="${post.user.image}" alt="foto de perfil"> 
-                        <h4>${post.user.name}</h4>
-                        <span>${dateNormalization(post.updatedAt)}</span>
-                    </div> 
-                    <div class="postContent">
-                      ${post.content}
-                    </div>
-                    <div class="postActions">
-                        <button type="button">
-                            <img src="../common/assets/Comment.png" alt="Comment button">
-                        </button>
-                    </div>
-        `
-      rootElement.appendChild(postElem)
-    })
+      rootElement.appendChild(newPost)
+    }
   }
 
-  return { render }
+  return { 
+    render,
+    setPosts
+  }
 }

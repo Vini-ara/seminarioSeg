@@ -13,6 +13,7 @@ export class AuthController {
 
   async login(req, res, next) {
     try {
+      console.log(req.body)
       const response = await this.authService.generateAccessToken(
         req.body.email,
         req.body.password
@@ -20,6 +21,7 @@ export class AuthController {
 
       res.status(200).json(response);
     } catch (err) {
+      console.log(err)
       next(err);
     }
   }

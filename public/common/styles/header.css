@@ -36,7 +36,7 @@ header .info .username {
 }
 
 header .info button {
-  background-color: var(--daker-blue);
+  background-color: var(--darker-blue);
   border: none;
   outline: none;
   font-size: 1rem;

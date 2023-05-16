@@ -1,11 +1,12 @@
 @import "../common/styles/global.css";
 @import "../common/styles/header.css";
+@import "../common/styles/post.css";
 
 /*--- Feed de posts ---*/
 .feed {
-  width: 40%;
+  width: 50%;
   margin: 0 auto;
-  padding-top: 2rem;
+  padding: 1rem 0;
 
   min-height: calc(100vh - 4rem);
 
@@ -30,63 +31,6 @@
   margin-left: 1%;
 }
 
-/*--- Posts ---*/
-.feed .post {
-  width: 98%;
-  padding: 1rem 1.5rem;
-
-  background-color: var(--lighter-blue);
-  color: white;
-
-  border-radius: 1.5rem;
-}
-
-.feed .post .postHeader {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.feed .post .postHeader img {
-  height: 3rem;
-  width: 3rem;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.feed .post .postHeader span {
-  font-size: 0.75rem;
-  margin-left: 0.5rem;
-  font-weight: regular;
-  position: relative;
-  opacity: 0.5;
-}
-
-.feed .post .postHeader span::before {
-  content: "";
-  height: 0.25rem;
-  width: 0.25rem;
-  position: absolute;
-  background-color: white;
-  border-radius: 50%;
-  top: 50%;
-  left: -0.75rem;
-  transform: translateY(-50%);
-  opacity: 0.5;
-}
-
-.feed .post .postContent {
-  width: calc(100% - 4rem);
-  margin-left: auto;
-}
-
-.feed .post .postActions {
-  width: calc(100% - 4rem);
-  margin-top: 1rem;
-  margin-left: auto;
-}
-
 /*--- Modal ---*/
 
 .modalOverlay {
@@ -97,8 +41,11 @@
   top: 0;
   z-index: 99;
 
-  display: flex;
-  align-items: center;
+  display: none;
+  visibility: hidden;
+
+  /* display: flex; */
+  /* align-items: center; */
 
   background-color: rgba(0, 0, 0, 0.4);
 }
@@ -113,6 +60,11 @@
   background: var(--darker-blue);
 
   border-radius: 1rem;
+}
+
+.modalOverlay.active {
+  display: flex;
+  visibility: visible;
 }
 
 .modalActions {

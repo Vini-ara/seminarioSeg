@@ -1,0 +1,68 @@
+.post {
+  width: 98%;
+  padding: 1rem 1.5rem;
+
+  background-color: var(--lighter-blue);
+  color: white;
+
+  border-radius: 1.5rem;
+}
+
+.post .postHeader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;  
+    margin-bottom: .5rem;
+}
+
+.post .postHeader img {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.post .postHeader img {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.post .postHeader span {
+  font-size: .75rem;
+  margin-left: .5rem;
+  font-weight: regular;
+  position: relative;
+  opacity: .5; 
+}
+
+.post .postHeader span::before {
+  content: "";
+  height: .25rem;
+  width: .25rem;
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  top: 50%;
+  left: -.75rem;
+  transform: translateY(-50%);
+  opacity: .5;
+}
+
+.post .postContent {
+  width: calc(100% - 4rem);
+  margin-left: auto;
+}
+
+.post .postContent img {
+  max-width: 70%; 
+  border-radius: 1rem;
+  margin-top: .5rem;
+}
+
+.post .postActions {
+  width: calc(100% - 4rem);
+  margin-top: 1rem;
+  margin-left: auto;
+}

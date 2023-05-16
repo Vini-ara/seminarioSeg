@@ -1,3 +1,14 @@
+const defaultSelect = {
+  id: true, 
+  name: true,
+  username: true,
+  image: true,
+  email: true,
+  gender: true,
+  cargo: true,
+  posts: true
+}
+
 export class UserService {
   constructor(prisma) {
     this.prisma = prisma;
@@ -6,16 +17,20 @@ export class UserService {
   async create(createUserDto) {
     return await this.prisma.user.create({
       data: createUserDto,
+      select: defaultSelect,
     });
   }
 
   async findAll() {
-    return await this.prisma.user.findMany();
+    return await this.prisma.user.findMany({
+      select: defaultSelect
+    });
   }
 
   async findOne(id) {
     return await this.prisma.user.findUnique({
       where: { id },
+      select: defaultSelect,
     });
   }
 

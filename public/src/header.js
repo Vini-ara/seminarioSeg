@@ -12,7 +12,7 @@ var header = () => {
 
     root.innerHTML = state.logged
       ? `
-        <p class="username"> ${auth.state.user?.username} </p>
+        <a class="username" href="/perfil/?id=${auth.state.user?.id}"> ${auth.state.user?.username} </a>
         <img src=${auth.state.user?.image} alt="user profile picture">
       `
       : `

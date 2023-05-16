@@ -1,8 +1,11 @@
 @import "../common/styles/global.css";
 @import "../common/styles/header.css";
+@import "../common/styles/post.css";
+
+/*---- Profile-Info ----*/
 
 .userInfo {
-    width: 40%;
+    width: 50%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -16,16 +19,21 @@
 }
 
 .userInfo .info {
-    padding: 4rem 4rem 1rem;
+    padding: 6rem 4rem 1rem;
     border-style: solid;
     border-width: 0 1px 1px 1px;
     border-color: #71767B;
     position: relative;
 }
 
+.userInfo h3 {
+  font-size: 1.5rem;
+  margin-bottom: .5rem;
+}
+
 #profilePicture {
-    height: 7rem;
-    width: 7rem;
+    height: 9rem;
+    width: 9rem;
     border-radius: 50%;
     object-fit: cover;
     position: absolute;
@@ -40,10 +48,12 @@
     gap: .5rem;
 }
 
+/*---- Post-list ----*/
+
 .userPosts {
-  width: 40%;
+  width: 50%;
   margin: 0 auto;
-  padding: 2rem 0;
+  padding: 1rem 0;
 
   border-style: solid;
   border-width: 0 1px 0 1px;
@@ -56,66 +66,8 @@
   gap: 2rem;
 } 
 
-.userPosts .post {
-  width: 98%;
-  padding: 1rem 1.5rem;
-
-  background-color: var(--lighter-blue);
+.userPosts h3:first-of-type { 
   color: white;
-
-  border-radius: 1.5rem;
-}
-
-.userPosts .post .postHeader {
-    display: flex;
-    align-items: center;
-    gap: 1rem;  
-    margin-bottom: .5rem;
-}
-
-.userPosts .post .postHeader img {
-  height: 3rem;
-  width: 3rem;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.userPosts .post .postHeader img {
-  height: 3rem;
-  width: 3rem;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.userPosts .post .postHeader span {
-  font-size: .75rem;
-  margin-left: .5rem;
-  font-weight: regular;
-  position: relative;
-  opacity: .5; 
-}
-
-.userPosts .post .postHeader span::before {
-  content: "";
-  height: .25rem;
-  width: .25rem;
-  position: absolute;
-  background-color: white;
-  border-radius: 50%;
-  top: 50%;
-  left: -.75rem;
-  transform: translateY(-50%);
-  opacity: .5;
-}
-
-
-.userPosts .post .postContent {
-  width: calc(100% - 4rem);
-  margin-left: auto;
-}
-
-.userPosts .post .postActions {
-  width: calc(100% - 4rem);
-  margin-top: 1rem;
-  margin-left: auto;
+  align-self: flex-start;
+  margin-left: 1%;
 }

@@ -1,6 +1,19 @@
 export var api = {
   getAllPosts: async () => {
-    const response = await fetch("/api/posts");
+    const response = await fetch("/api/post");
+
+    return response.json();
+  },
+  createPost: async (body) => {
+    const opt = {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(body),
+    } 
+
+    const response = await fetch("/api/post", opt);
 
     return response.json();
   },
@@ -17,6 +30,11 @@ export var api = {
 
     return response.json();
   },
+  findUser: async (id) => {
+    const response = await fetch(`/api/user/${id}`) 
+
+    return response.json()
+  },
   login: async (body) => {
     const opt = {
       method: "POST",
@@ -25,9 +43,9 @@ export var api = {
       },
       body: JSON.stringify(body),
     };
-
+    
     const response = await fetch("/api/auth/login", opt);
-
+    
     return response.json();
   },
   refreshAuth: async (accessToken) => {
