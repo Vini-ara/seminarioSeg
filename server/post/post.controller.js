@@ -2,17 +2,19 @@ import express from "express";
 import { CreatePostDto } from "./dto/create-post.dto.js";
 import { UpdatePostDto } from "./dto/update-post.dto.js";
 
+import authorization from "../middlewares/authorization.js"
+
 export class PostController {
   basePath = "/post";
 
   constructor(postService) {
     this.postService = postService;
     this.router = express.Router();
-    this.router.post("/", this.create.bind(this));
+    this.router.post("/", authorization, this.create.bind(this));
     this.router.get("/", this.findAll.bind(this));
     this.router.get("/:id", this.findOne.bind(this));
-    this.router.put("/:id", this.update.bind(this));
-    this.router.delete("/:id", this.remove.bind(this));
+    this.router.put("/:id", authorization, this.update.bind(this));
+    this.router.delete("/:id", authorization,this.remove.bind(this));
   }
 
   async create(req, res, next) {
@@ -58,6 +60,7 @@ export class PostController {
       const post = await this.postService.remove(+req.params.id);
       res.json(post);
     } catch (err) {
+      console.log(err)
       next(err);
     }
   }

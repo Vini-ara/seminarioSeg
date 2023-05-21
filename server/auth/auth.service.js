@@ -4,7 +4,6 @@ const defaultUserSelect = {
   id: true,
   email: true,
   username: true,
-  name: true,
   gender: true,
   image: true,
   isAdmin: true,

@@ -65,6 +65,25 @@ var createPostModal = (refreshPage) => {
     });
   };
 
+  let postContent = async () => {
+    const result = md.render(state.simpleMde.value())
+
+    const userId = auth.state.user.id; 
+
+    const body = {
+      userId,
+      content: result
+    }
+
+    const accessToken = localStorage.getItem("accessToken")
+
+    await api.createPost(accessToken, body)
+
+    state.simpleMde.value("")
+    toggleModal()
+    await refreshPage()
+  }
+
   let render = () => {
     if (!auth.state.user) return;
 
@@ -77,23 +96,6 @@ var createPostModal = (refreshPage) => {
     createModal();
  };
 
-  let postContent = async () => {
-    const result = md.render(state.simpleMde.value())
-
-    const userId = auth.state.user.id; 
-
-    const body = {
-      userId,
-      content: result
-    }
-
-    await api.createPost(body)
-
-    state.simpleMde.value("")
-    toggleModal()
-    await refreshPage()
-  }
-
   return {
     render,
     toggleModal,
@@ -103,11 +105,12 @@ var createPostModal = (refreshPage) => {
 const feedPage = () => {
   const components = {
     header: header(),
-    modal: createPostModal(render),
+    modal: createPostModal(async () => await render()),
     feed: feed()
   }
 
   var render = async () => {
+    console.log("renderizando")
     const posts = await api.getAllPosts()
 
     components.feed.setPosts(posts)

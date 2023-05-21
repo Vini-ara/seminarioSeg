@@ -33,11 +33,21 @@ const userPostsList = () => {
   }
 
   let render = () => {
-    state.userInfo.posts.forEach((postInfo) => {
-      let newPost = post(postInfo, state.userInfo)
+    for(let i = state.userInfo.posts.length - 1; i >= 0; i--) {
+      let newPost = post(state.userInfo.posts[i], state.userInfo)
 
       elements.root.appendChild(newPost)
-    })
+
+      const deleteButton = document.getElementById(`delete${state.userInfo.posts[i].id}`)
+      if(deleteButton) {
+        deleteButton.addEventListener("click", async () => {
+          const aceesToken = localStorage.getItem("accessToken")
+          const postId = state.userInfo.posts[i].id
+
+          await api.deletePost(aceesToken, postId)
+        })
+      }
+    }
   }
    
   return { 
@@ -92,7 +102,7 @@ const profilePage = () => {
     userPosts: userPostsList(),
   }
   
-  let start = async () => {
+  let render = async () => {
     const userInfo = await getUserInfo()
 
     components.perfil.setUserInfo(userInfo)
@@ -101,8 +111,8 @@ const profilePage = () => {
   }
 
   return {
-    start
+    render
   }
 }
 
-await profilePage().start()
+await profilePage().render()

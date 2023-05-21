@@ -73,10 +73,9 @@ var formCadastro = () => {
     e.preventDefault()
 
     const requestBody = {
-      email: state.email,
+      email: state.email ? state.email : elements.email.value,
       username: state.nome,
-      password: state.senha,
-      name: state.nome,
+      password: state.senha ? state.senha : elements.senha.value,
       gender: state.genero,
       cargoId: 1,
       image: state.imageFile,
@@ -85,6 +84,7 @@ var formCadastro = () => {
     await api.createUser(requestBody);
 
     elements.form.reset();
+    window.location.href = "/cadastro"
   };
 
   return {

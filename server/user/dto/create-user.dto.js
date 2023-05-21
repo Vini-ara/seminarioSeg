@@ -3,7 +3,6 @@ export class CreateUserDto {
     this.email = body.email;
     this.username = body.username;
     this.password = body.password;
-    this.name = body.name;
     this.gender = body.gender;
     this.cargoId = body.cargoId;
     this.image = body.image;

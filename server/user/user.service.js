@@ -1,6 +1,5 @@
 const defaultSelect = {
   id: true, 
-  name: true,
   username: true,
   image: true,
   email: true,

@@ -35,7 +35,25 @@ export class PostService {
   async findOne(id) {
     return await this.prisma.post.findUnique({
       where: { id },
-      select: defaultPostSelect,
+      select: {
+        ...defaultPostSelect,
+        comments: {
+          select: {
+            id: true,
+            content: true,
+            createdAt: true,
+            updatedAt: true,
+            user: {
+              select: {
+                id: true,
+                username: true,
+                name: true,
+                image: true,
+              }
+            }
+          }
+        }
+      },
     });
   }
 

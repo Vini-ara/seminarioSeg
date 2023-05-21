@@ -1,3 +1,4 @@
+import { api } from './api.js'
 import { post } from './post.js'
 
 export const feed = (rootElement = document.querySelector(".feed")) => {
@@ -18,6 +19,16 @@ export const feed = (rootElement = document.querySelector(".feed")) => {
       let newPost = post(state.posts[i], state.posts[i].user) 
 
       rootElement.appendChild(newPost)
+
+      const deleteButton = document.getElementById(`delete${state.posts[i].id}`)
+      if(deleteButton) {
+        deleteButton.addEventListener("click", async () => {
+          const aceesToken = localStorage.getItem("accessToken")
+          const postId = state.posts[i].id
+
+          await api.deletePost(aceesToken,postId)
+        })
+      }
     }
   }
 

@@ -1,8 +1,8 @@
 export class CreateCommentDto {
   constructor(body) {
-    this.title = body.title
     this.content = body.content
     this.userId = body.userId
+    this.postId = body.postId
   }
 
   static fromRequest(body) {

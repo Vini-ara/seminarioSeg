@@ -2,17 +2,19 @@ import express from "express";
 import { CreateCommentDto } from "./dto/create-comment.dto.js";
 import { UpdateCommentDto } from "./dto/update-comment.dto.js";
 
+import authorization from "../middlewares/authorization.js";
+
 export class CommentController {
   basePath = "/comment";
 
   constructor(commentService) {
     this.commentService = commentService;
     this.router = express.Router();
-    this.router.post("/", this.create.bind(this));
+    this.router.post("/", authorization, this.create.bind(this));
     this.router.get("/", this.findAll.bind(this));
     this.router.get("/:id", this.findOne.bind(this));
-    this.router.put("/:id", this.update.bind(this));
-    this.router.delete("/:id", this.remove.bind(this));
+    this.router.put("/:id", authorization, this.update.bind(this));
+    this.router.delete("/:id", authorization, this.remove.bind(this));
   }
 
   async create(req, res, next) {
