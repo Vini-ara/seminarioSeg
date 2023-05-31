@@ -1,6 +1,5 @@
 import { header } from "../src/header.js";
 import { auth } from "../src/auth.js";
-import { api } from "../src/api.js";
 
 const head = header();
 
@@ -38,6 +37,7 @@ var formLogin = () => {
 
     head.render();
     elements.form.reset();
+    window.location.href = window.location.href
   };
 
   return {

@@ -97,9 +97,9 @@ var createCommentModal = (refreshPage) => {
       postId,
     }
 
-    console.log(body)
+    const accessToken = localStorage.getItem("accessToken")
 
-    await api.createComment(body)
+    await api.createComment(accessToken, body)
 
     state.simpleMde.value("")
     toggleModal()
@@ -170,6 +170,7 @@ var commentList = () => {
         const accessToken = localStorage.getItem("accessToken")
 
         await api.deleteComment(accessToken, comments[i].id)
+        window.location.href = window.location.href
       })
     }
   }

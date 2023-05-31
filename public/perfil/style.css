@@ -48,6 +48,19 @@
     gap: .5rem;
 }
 
+.userInfo .edit {
+  position: absolute;
+  border: 1px solid black;
+  padding: .5rem 1rem;
+  background-color: var(--lighter-blue); 
+  color: white;
+  font-weight: bold;
+  font-size: 1.15rem;
+  border-radius: .5rem;
+  top: 2rem;
+  right: 2rem;
+}
+
 /*---- Post-list ----*/
 
 .userPosts {

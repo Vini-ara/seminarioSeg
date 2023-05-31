@@ -35,11 +35,12 @@ export var api = {
 
     return response.json()
   },
-  createComment: async (body) => {
+  createComment: async (accessToken, body) => {
     const opt = {
       method: "POST",
       headers: {
         "Content-type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(body),
     }

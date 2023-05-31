@@ -85,6 +85,11 @@ const perfil = () => {
               <img src="../common/assets/email.png" alt="icone de email">
               <p>${state.userInfo.email}</p>
           </div>
+          ${ auth.state.user.id == state.userInfo.id ? 
+              `<button class="edit">Editar</button>`
+              :
+              ""
+          }
       </div>
     `
   }
@@ -92,6 +97,29 @@ const perfil = () => {
   return {
     render,
     setUserInfo
+  }
+}
+
+const EditModal = () => {
+  let elements = {
+    root: document.querySelector("main"),
+    modalOverlay: document.createElement("section"),
+    openBtn: document.querySelector(".edit"),
+  }
+
+  let createModal = () => {
+    
+  }
+
+  let render = () => {
+    if(!elements.openBtn) return
+
+    
+    
+  }
+
+  return {
+    render,
   }
 }
 

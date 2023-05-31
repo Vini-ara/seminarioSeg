@@ -8,7 +8,6 @@ const defaultPostSelect = {
       id: true,
       email: true,
       username: true,
-      name: true,
       image: true,
     },
   },
@@ -47,7 +46,6 @@ export class PostService {
               select: {
                 id: true,
                 username: true,
-                name: true,
                 image: true,
               }
             }

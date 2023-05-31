@@ -84,7 +84,7 @@ var formCadastro = () => {
     await api.createUser(requestBody);
 
     elements.form.reset();
-    window.location.href = "/cadastro"
+    window.location.href = "/login"
   };
 
   return {
