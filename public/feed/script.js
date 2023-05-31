@@ -45,8 +45,8 @@ var createPostModal = (refreshPage) => {
       document.querySelector(".modalActions").firstElementChild;
     closeModalBtn.addEventListener("click", toggleModal);
 
-    const postBtn = document.querySelector(".modalSubmitBtn")
-    postBtn.addEventListener("click", postContent)
+    const postBtn = document.querySelector(".modalSubmitBtn");
+    postBtn.addEventListener("click", postContent);
 
     state.simpleMde = new SimpleMDE({
       element: document.getElementById("simpleMde"),
@@ -61,28 +61,28 @@ var createPostModal = (refreshPage) => {
         "guide",
       ],
       placeholder: "O que voce tem para dizer...",
-      spellChecker: false
+      spellChecker: false,
     });
   };
 
   let postContent = async () => {
-    const result = md.render(state.simpleMde.value())
+    const result = md.render(state.simpleMde.value());
 
-    const userId = auth.state.user.id; 
+    const userId = auth.state.user.id;
 
     const body = {
       userId,
-      content: result
-    }
+      content: result,
+    };
 
-    const accessToken = localStorage.getItem("accessToken")
+    const accessToken = localStorage.getItem("accessToken");
 
-    await api.createPost(accessToken, body)
+    await api.createPost(accessToken, body);
 
-    state.simpleMde.value("")
-    toggleModal()
-    await refreshPage()
-  }
+    state.simpleMde.value("");
+    toggleModal();
+    await refreshPage();
+  };
 
   let render = () => {
     if (!auth.state.user) return;
@@ -90,11 +90,11 @@ var createPostModal = (refreshPage) => {
     // adiciona botao de criar post na tela
     elements.openBtn.classList.add("openModalBtn");
     elements.openBtn.innerText = "Criar Publicação";
-    elements.openBtn.addEventListener("click", toggleModal)
+    elements.openBtn.addEventListener("click", toggleModal);
     elements.feed.insertBefore(elements.openBtn, elements.feed.firstChild);
 
     createModal();
- };
+  };
 
   return {
     render,
@@ -106,21 +106,21 @@ const feedPage = () => {
   const components = {
     header: header(),
     modal: createPostModal(async () => await render()),
-    feed: feed()
-  }
+    feed: feed(),
+  };
 
   var render = async () => {
-    console.log("renderizando")
-    const posts = await api.getAllPosts()
+    console.log("renderizando");
+    const posts = await api.getAllPosts();
 
-    components.feed.setPosts(posts)
-    components.header.render()
-    components.modal.render()
-  }
+    components.feed.setPosts(posts);
+    components.header.render();
+    components.modal.render();
+  };
 
   return {
-    render 
-  }
-}
+    render,
+  };
+};
 
-await feedPage().render()
+await feedPage().render();

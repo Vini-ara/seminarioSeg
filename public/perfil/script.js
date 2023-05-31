@@ -4,143 +4,143 @@ import { auth } from "../src/auth.js";
 import { post } from "../src/post.js";
 
 const getUserInfo = async () => {
-  if(window.location.href.split("?").length < 2) {
-    window.location.href = "http://localhost:3000/"
+  if (window.location.href.split("?").length < 2) {
+    window.location.href = "http://localhost:3000/";
   }
 
-  const id = window.location.href.split("=")[1]
+  const id = window.location.href.split("=")[1];
 
-  const userInfo = await api.findUser(id)
+  const userInfo = await api.findUser(id);
 
-  if(!userInfo)
-    window.location.href = "http://localhost:3000/"
+  if (!userInfo) window.location.href = "http://localhost:3000/";
 
-  return userInfo
-}
+  return userInfo;
+};
 
 const userPostsList = () => {
   const elements = {
-    root: document.querySelector(".userPosts")
-  }
+    root: document.querySelector(".userPosts"),
+  };
 
   const state = {
-    userInfo: null
-  }
+    userInfo: null,
+  };
 
   let setUserInfo = (userInfo) => {
-    state.userInfo = userInfo
-    render()
-  }
+    state.userInfo = userInfo;
+    render();
+  };
 
   let render = () => {
-    for(let i = state.userInfo.posts.length - 1; i >= 0; i--) {
-      let newPost = post(state.userInfo.posts[i], state.userInfo)
+    for (let i = state.userInfo.posts.length - 1; i >= 0; i--) {
+      let newPost = post(state.userInfo.posts[i], state.userInfo);
 
-      elements.root.appendChild(newPost)
+      elements.root.appendChild(newPost);
 
-      const deleteButton = document.getElementById(`delete${state.userInfo.posts[i].id}`)
-      if(deleteButton) {
+      const deleteButton = document.getElementById(
+        `delete${state.userInfo.posts[i].id}`
+      );
+      if (deleteButton) {
         deleteButton.addEventListener("click", async () => {
-          const aceesToken = localStorage.getItem("accessToken")
-          const postId = state.userInfo.posts[i].id
+          const aceesToken = localStorage.getItem("accessToken");
+          const postId = state.userInfo.posts[i].id;
 
-          await api.deletePost(aceesToken, postId)
-        })
+          await api.deletePost(aceesToken, postId);
+        });
       }
     }
-  }
-   
-  return { 
+  };
+
+  return {
     render,
-    setUserInfo
-  }
-}
+    setUserInfo,
+  };
+};
 
 const perfil = () => {
   const elements = {
     root: document.querySelector(".userInfo"),
-    pfp: document.getElementById("profilePicture")
-  }
+    pfp: document.getElementById("profilePicture"),
+  };
 
   const state = {
     userInfo: null,
-  }
+  };
 
   let setUserInfo = (userInfo) => {
-    state.userInfo = userInfo
-    render()
-  }
+    state.userInfo = userInfo;
+    render();
+  };
 
   let render = () => {
     elements.root.innerHTML = `
       <div class="backgroundRectangle"></div>
       <div class="info">
-          <img src="${state.userInfo.image}" alt="foto de perfil" id="profilePicture">
+          <img src="${
+            state.userInfo.image
+          }" alt="foto de perfil" id="profilePicture">
           <h3>${state.userInfo.username}</h3>
           <div class="atribute">
               <img src="../common/assets/cargo.png" alt="icone de cargo">
-              <p>${state.userInfo.cargo.nome} - ${state.userInfo.cargo.nucleo}</p>
+              <p>${state.userInfo.cargo.nome} - ${
+      state.userInfo.cargo.nucleo
+    }</p>
           </div>
           <div class="atribute">
               <img src="../common/assets/email.png" alt="icone de email">
               <p>${state.userInfo.email}</p>
           </div>
-          ${ auth.state.user.id == state.userInfo.id ? 
-              `<button class="edit">Editar</button>`
-              :
-              ""
+          ${
+            auth.state.user?.id == state.userInfo.id
+              ? `<button class="edit">Editar</button>`
+              : ""
           }
       </div>
-    `
-  }
+    `;
+  };
 
   return {
     render,
-    setUserInfo
-  }
-}
+    setUserInfo,
+  };
+};
 
 const EditModal = () => {
   let elements = {
     root: document.querySelector("main"),
     modalOverlay: document.createElement("section"),
     openBtn: document.querySelector(".edit"),
-  }
+  };
 
-  let createModal = () => {
-    
-  }
+  let createModal = () => {};
 
   let render = () => {
-    if(!elements.openBtn) return
-
-    
-    
-  }
+    if (!elements.openBtn) return;
+  };
 
   return {
     render,
-  }
-}
+  };
+};
 
 const profilePage = () => {
   const components = {
     header: header(),
     perfil: perfil(),
     userPosts: userPostsList(),
-  }
-  
-  let render = async () => {
-    const userInfo = await getUserInfo()
+  };
 
-    components.perfil.setUserInfo(userInfo)
-    components.userPosts.setUserInfo(userInfo)
-    components.header.render()
-  }
+  let render = async () => {
+    const userInfo = await getUserInfo();
+
+    components.perfil.setUserInfo(userInfo);
+    components.userPosts.setUserInfo(userInfo);
+    components.header.render();
+  };
 
   return {
-    render
-  }
-}
+    render,
+  };
+};
 
-await profilePage().render()
+await profilePage().render();

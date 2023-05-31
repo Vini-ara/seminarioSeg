@@ -1,28 +1,27 @@
-import { api } from "../src/api.js"
-import { auth } from "../src/auth.js"
-import { header } from "../src/header.js"
-import { post } from "../src/post.js"
+import { api } from "../src/api.js";
+import { auth } from "../src/auth.js";
+import { header } from "../src/header.js";
+import { post } from "../src/post.js";
 
 const md = window.markdownit();
 
 const getPostId = () => {
-  if(window.location.href.split("?").length < 2) {
-    window.location.href = "http://localhost:3000/feed"
+  if (window.location.href.split("?").length < 2) {
+    window.location.href = "http://localhost:3000/feed";
   }
 
-  return window.location.href.split("=")[1]
-}
+  return window.location.href.split("=")[1];
+};
 
 const getPostInfo = async () => {
-  const postId = getPostId()
+  const postId = getPostId();
 
-  const postInfo = await api.getUniquePost(postId)
+  const postInfo = await api.getUniquePost(postId);
 
-  if(!postInfo)
-    window.location.href = "http://localhost:3000/feed"
+  if (!postInfo) window.location.href = "http://localhost:3000/feed";
 
-  return postInfo
-}
+  return postInfo;
+};
 
 var createCommentModal = (refreshPage) => {
   let elements = {
@@ -65,8 +64,8 @@ var createCommentModal = (refreshPage) => {
       document.querySelector(".modalActions").firstElementChild;
     closeModalBtn.addEventListener("click", toggleModal);
 
-    const postBtn = document.querySelector(".modalSubmitBtn")
-    postBtn.addEventListener("click", postContent)
+    const postBtn = document.querySelector(".modalSubmitBtn");
+    postBtn.addEventListener("click", postContent);
 
     state.simpleMde = new SimpleMDE({
       element: document.getElementById("simpleMde"),
@@ -81,40 +80,40 @@ var createCommentModal = (refreshPage) => {
         "guide",
       ],
       placeholder: "O que voce tem para dizer...",
-      spellChecker: false
+      spellChecker: false,
     });
   };
 
   let postContent = async () => {
-    const result = md.render(state.simpleMde.value())
+    const result = md.render(state.simpleMde.value());
 
     const userId = auth.state.user.id;
-    const postId = parseInt(getPostId())
+    const postId = parseInt(getPostId());
 
     const body = {
       content: result,
       userId,
       postId,
-    }
+    };
 
-    const accessToken = localStorage.getItem("accessToken")
+    const accessToken = localStorage.getItem("accessToken");
 
-    await api.createComment(accessToken, body)
+    await api.createComment(accessToken, body);
 
-    state.simpleMde.value("")
-    toggleModal()
-    await refreshPage()
-  }
+    state.simpleMde.value("");
+    toggleModal();
+    await refreshPage();
+  };
 
   let render = () => {
     if (!auth.state.user) return;
 
     // adiciona botao de criar post na tela
     elements.openBtn.classList.add("openModalBtn");
-    elements.openBtn.addEventListener("click", toggleModal)
+    elements.openBtn.addEventListener("click", toggleModal);
 
     createModal();
- };
+  };
 
   return {
     render,
@@ -122,81 +121,81 @@ var createCommentModal = (refreshPage) => {
   };
 };
 
-
-
 var commentList = () => {
   let elements = {
-    root: document.querySelector(".content")
-  }
+    root: document.querySelector(".content"),
+  };
 
   let state = {
     postInfo: null,
-  }
+  };
 
   let setPostInfo = (postInfo) => {
-    state.postInfo = postInfo
-    render()
-  }
-  
+    state.postInfo = postInfo;
+    render();
+  };
+
   let render = async () => {
-    while(elements.root.firstChild)
-      elements.root.removeChild(elements.root.firstChild)
+    while (elements.root.firstChild)
+      elements.root.removeChild(elements.root.firstChild);
 
-    let postInfo = await getPostInfo()
+    let postInfo = await getPostInfo();
 
-    state.postInfo = postInfo
+    state.postInfo = postInfo;
 
-    const postContent = post(postInfo, postInfo.user)
-    elements.root.appendChild(postContent)
+    const postContent = post(postInfo, postInfo.user);
+    elements.root.appendChild(postContent);
 
-    const deleteWholePostBtn = document.getElementById(`delete${postInfo.id}`)
-    deleteWholePostBtn.addEventListener("click", async () => {
-      const accessToken = localStorage.getItem("accessToken")
+    const deleteWholePostBtn = document.getElementById(`delete${postInfo.id}`);
+    deleteWholePostBtn?.addEventListener("click", async () => {
+      const accessToken = localStorage.getItem("accessToken");
 
-      await api.deletePost(accessToken, postInfo.id)
-    
-      window.location.href = "/feed"
-    })
+      await api.deletePost(accessToken, postInfo.id);
 
-    let comments = state.postInfo.comments
+      window.location.href = "/feed";
+    });
 
-    for(let i = comments.length - 1; i >= 0; i--) {
-      let comment = post(comments[i], comments[i].user, true)
+    let comments = state.postInfo.comments;
 
-      elements.root.appendChild(comment)
+    for (let i = comments.length - 1; i >= 0; i--) {
+      let comment = post(comments[i], comments[i].user, true);
 
-      const deleteCommentBtn = document.getElementById("deleteComment" + comments[i].id)
+      elements.root.appendChild(comment);
+
+      const deleteCommentBtn = document.getElementById(
+        "deleteComment" + comments[i].id
+      );
       deleteCommentBtn.addEventListener("click", async () => {
-        const accessToken = localStorage.getItem("accessToken")
+        const accessToken = localStorage.getItem("accessToken");
 
-        await api.deleteComment(accessToken, comments[i].id)
-        window.location.href = window.location.href
-      })
+        await api.deleteComment(accessToken, comments[i].id);
+        window.location.href = window.location.href;
+      });
     }
-  }
+  };
 
   return {
     render,
-    setPostInfo
-  }
-}
+    setPostInfo,
+  };
+};
 
 let commentsPage = () => {
   const components = {
     modal: createCommentModal(async () => await render()),
     commentList: commentList(),
     header: header(),
-  }
+  };
 
   var render = async () => {
-    components.header.render()
-    components.modal.render()
-    await components.commentList.render()
-  }
+    components.header.render();
+    components.modal.render();
+    await components.commentList.render();
+  };
 
   return {
-    render
-  }
-}
+    render,
+  };
+};
 
-await commentsPage().render()
+await commentsPage().render();
