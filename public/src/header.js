@@ -14,6 +14,7 @@ var header = () => {
       ? `
         <a class="username" href="/perfil/?id=${auth.state.user?.id}"> ${auth.state.user?.username} </a>
         <img src=${auth.state.user?.image} alt="user profile picture">
+        <button type="button" class="logout">Sair</button>
       `
       : `
         <a href="../cadastro">Cadastre-se</a> 
@@ -21,6 +22,17 @@ var header = () => {
           <a href="../login">Entrar</a>
         </button> 
       `;
+
+    let logoutBtn = document.querySelector(".logout");
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", () => {
+        auth.logout().then(() => {
+          console.log("Usuário deslogado com sucesso");
+          window.location.href = "/login";
+        });
+      });
+    }
   };
 
   return {

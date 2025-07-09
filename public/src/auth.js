@@ -30,7 +30,9 @@ var authorization = async () => {
     }
   };
 
-  let logout = () => {
+  let logout = async () => {
+    await api.logout();
+
     state.user = null;
   };
 
@@ -55,7 +57,7 @@ var authorization = async () => {
       return;
     }
     
-    if (!window.location.pathname.includes('/login')) {
+    if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/cadastro')) {
       window.location.href = "/login";
     }
   };

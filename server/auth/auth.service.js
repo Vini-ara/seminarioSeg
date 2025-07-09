@@ -75,6 +75,18 @@ export class AuthService {
     return user;
   }
 
+  async logout(id, response) {
+    CookieUtils.clearCookie(response, 'accessToken');
+    CookieUtils.clearCookie(response, 'refreshToken');
+
+    await this.prismaService.user.update({
+      where: { id },
+      data: { refreshToken: null },
+    });
+
+    return { message: "Logout successful" };
+  }
+
   async generateAccessToken(email, password, response) {
     const user = await this.prismaService.user.findUnique({
       where: { email },

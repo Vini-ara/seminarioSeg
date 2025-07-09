@@ -10,7 +10,7 @@ export class AuthController {
     this.router = express.Router();
     this.router.post("/login", this.login.bind(this));
     this.router.get("/refresh", refreshAuth,this.refresh.bind(this));
-    this.router.get("/logout", authorization, this.logout.bind(this));
+    this.router.post("/logout", authorization, this.logout.bind(this));
     this.router.get("/isLogged", authorization, this.isLoggedIn.bind(this));
   }
 
@@ -52,6 +52,8 @@ export class AuthController {
   async logout(req, res, next) {
     try {
       const response = await this.authService.logout(req.user.id, res);
+
+      console.log("logout", response);
 
       res.status(200).json(response);
     } catch (err) {

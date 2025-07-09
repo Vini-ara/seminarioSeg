@@ -83,11 +83,6 @@ const perfil = () => {
               <img src="../common/assets/email.png" alt="icone de email">
               <p>${state.userInfo.email}</p>
           </div>
-          ${
-            auth.state.user?.id == state.userInfo.id
-              ? `<button class="edit">Editar</button>`
-              : ""
-          }
       </div>
     `;
   };

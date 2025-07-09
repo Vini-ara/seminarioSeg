@@ -30,7 +30,7 @@ function responseErrorInterceptor(error) {
       .catch((err) => {
         console.error("Erro ao tentar atualizar o token:", err);
     
-        if (!window.location.pathname.includes("/login")) {
+        if (!window.location.pathname.includes("/login") && !window.location.pathname.includes("/cadastro")) {
           window.location.href = "/login";
         }
       })
@@ -96,5 +96,10 @@ export var api = {
     const response = await httpClient.get("/api/auth/isLogged");
 
     return response?.data;
-  }
+  },
+  logout: async () => {
+    const response = await httpClient.post("/api/auth/logout");
+    
+    return response.data;
+  },
 };
