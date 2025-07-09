@@ -35,10 +35,6 @@ var formLogin = () => {
     state.senha = elements.senha.value;
 
     await auth.login(state.email, state.senha);
-
-    head.render();
-    elements.form.reset();
-    window.location.href = window.location.href
   };
 
   let render = () => {

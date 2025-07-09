@@ -17,6 +17,8 @@ model User {
   isAdmin   Boolean  @default(false)
   createdAt DateTime @default(now())
 
+  refreshToken String? @unique
+
   posts     Post[]
 
   comments  Comment[]

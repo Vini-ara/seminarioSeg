@@ -27,7 +27,7 @@ export class CommentController {
     }
   }
 
-  async findAll(req, res, next) {
+  async findAll(_, res, next) {
     try {
       const posts = await this.commentService.findAll();
       res.json(posts);

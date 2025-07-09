@@ -12,47 +12,52 @@ var authorization = async () => {
     });
 
     if (res) {
-      localStorage.setItem("accessToken", res.accessToken);
-      localStorage.setItem("expiresIn", res.expiresIn);
-
       state.user = res.user;
+      window.location.href = "/feed"
     }
   };
 
-  let refresh = async (id, accessToken) => {
-    const res = await api.refreshAuth(id);
+  let refresh = async () => {
+    const res = await api.refreshAuth();
 
     if (res) {
-      localStorage.setItem("accessToken", res.accessToken);
-      localStorage.setItem("expiresIn", res.expiresIn);
-
       state.user = res.user;
+      return;
+    }
+
+    if (!window.location.pathname.includes('/login')) {
+      window.location.href = "/login";
     }
   };
 
   let logout = () => {
     state.user = null;
-
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("expiresIn");
   };
 
+  let isLoggedIn = async () => {
+    const res = await api.isLoggedIn();
+
+    if (res && res.isLoggedIn) {
+      state.user = res.user;
+      return true;
+    }
+
+    return false;
+  }
+
   let setup = async () => {
-    const oldAccessToken = localStorage.getItem("accessToken");
+    const isLogged = await isLoggedIn();
 
-    if (!oldAccessToken) return;
-
-    const nowInSeconds = Math.floor(new Date().getTime() / 1000);
-
-    const isTokenExpired =
-      parseInt(localStorage.getItem("expiresIn")) < nowInSeconds;
-
-    if (isTokenExpired) return;
-
-    await refresh();
-
-    console.log("User logged in from localStorage");
-    console.log(state.user);
+    if (isLogged) {
+      if (window.location.pathname.includes('/login')) {
+        window.location.href = "/feed";
+      }
+      return;
+    }
+    
+    if (!window.location.pathname.includes('/login')) {
+      window.location.href = "/login";
+    }
   };
 
   await setup();
@@ -61,6 +66,7 @@ var authorization = async () => {
     state,
     login,
     logout,
+    refresh,
   };
 };
 

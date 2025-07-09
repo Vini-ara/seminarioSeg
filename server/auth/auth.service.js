@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { CookieUtils } from "../utils/cookie.utils.js";
 
 const defaultUserSelect = {
   id: true,
@@ -16,11 +17,18 @@ export class AuthService {
     this.prismaService = prisma;
   }
 
-  async refreshAuth(id) {
+  async refreshAuth(req, response) {
+    const cookieRefreshToken = CookieUtils.getCookieValue(req, 'refreshToken');
+
     const user = await this.prismaService.user.findUniqueOrThrow({
-      where: { id },
-      select: defaultUserSelect,
+      where: { id: req.user.id },
+      select: {
+        ...defaultUserSelect,
+        refreshToken: true,
+      },
     });
+
+    const { refreshToken, ...userData } = user;
 
     const payload = {
       id: user.id,
@@ -28,21 +36,45 @@ export class AuthService {
       is_admin: user.isAdmin,
     };
 
+    if (!refreshToken || refreshToken !== cookieRefreshToken) {
+      throw new Error("Refresh token not found or invalid");
+    }
+
     const accessToken = jwt.sign(payload, process.env.JWT_AT_SECRET_KEY, {
       expiresIn: parseInt(process.env.JWT_AT_EXPIRES_IN),
     });
 
-    return {
+    CookieUtils.setHeaderWithCookie(response, {
       accessToken,
-      expiresIn: new Date().setTime(
-        new Date().getTime() +
-          parseInt(process.env.JWT_AT_EXPIRES_IN) * 1000,
-      ),
-      user,
+    }, process.env.JWT_AT_EXPIRES_IN);
+
+    return {
+      user: userData,
     };
   }
 
-  async generateAccessToken(email, password) {
+  async logout(id, response) {
+    await this.prismaService.user.update({
+      where: { id },
+      data: { refreshToken: null },
+    });
+
+    CookieUtils.clearCookie(response, 'accessToken');
+    CookieUtils.clearCookie(response, 'refreshToken');
+
+    return { message: "Logout successful" };
+  }
+
+  async getUserData(id) {
+    const user = await this.prismaService.user.findUniqueOrThrow({
+      where: { id },
+      select: defaultUserSelect,
+    });
+
+    return user;
+  }
+
+  async generateAccessToken(email, password, response) {
     const user = await this.prismaService.user.findUnique({
       where: { email },
     });
@@ -63,18 +95,29 @@ export class AuthService {
     };
 
     const accessToken = jwt.sign(payload, process.env.JWT_AT_SECRET_KEY, {
-      expiresIn: process.env.JWT_AT_EXPIRES_IN,
+      expiresIn: parseInt(process.env.JWT_AT_EXPIRES_IN),
+    });
+
+    const refreshToken = jwt.sign(payload, process.env.JWT_RT_SECRET_KEY, {
+      expiresIn: parseInt(process.env.JWT_RT_EXPIRES_IN),
+    });
+
+    await this.prismaService.user.update({
+      where: { id: user.id },
+      data: { refreshToken },
     });
 
     const { _password, ...userWithoutPassword } = user;
 
-    return {
+    CookieUtils.setHeaderWithCookie(response, {
       accessToken,
-      expiresIn: new Date().setTime(
-        new Date().getTime() +
-          parseInt(process.env.JWT_AT_EXPIRES_IN) * 1000,
-      ),
-      userWithoutPassword,
+    }, parseInt(process.env.JWT_AT_EXPIRES_IN));
+    CookieUtils.setHeaderWithCookie(response, {
+      refreshToken,
+    }, parseInt(process.env.JWT_RT_EXPIRES_IN));
+
+    return {
+      user: userWithoutPassword,
     };
   }
 }

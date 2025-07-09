@@ -1,26 +1,5 @@
 export const httpClient = axios.create();
 
-httpClient.interceptors.request.use(
-  async (config) => {
-    try {
-      const token = localStorage.getItem("accessToken");
-      if (token) {
-        config.headers["Authorization"] = `Bearer ${token}`;
-      }
-
-      config.headers["Content-Type"] = "application/json";
-
-      return config;
-    } catch (error) {
-      console.error("Erro ao obter token:", error);
-      return config;
-    }
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
 httpClient.interceptors.response.use(
   (response) => {
     return response;
@@ -35,44 +14,32 @@ function responseErrorInterceptor(error) {
   const originalRequest = error.config;
 
   if (
-    error.response?.status === 403
+    error.response?.status === 401
   ) {
-    localStorage.clear();
-
     console.log("Token expirado ou inválido, redirecionando para login...");
 
-    window.location.href = "/login";
-    return;
+    axios.get("/api/auth/refresh")
+      .then((res) => {
+        if (res.data) {
+          // recarrega a pagina
+          window.location.reload();
 
-    // originalRequest._retry = true; // Evitar retry infinito
-    //
-    // if (!isRefreshing) {
-    //   isRefreshing = true;
-    //
-    //   // Timeout na renovação do token
-    //   const refreshPromise = refreshToken();
-    //   const timeoutPromise = new Promise((_, reject) =>
-    //     setTimeout(() => reject(new Error("Timeout na renovação")), 10000)
-    //   );
-    //
-    //   Promise.race([refreshPromise, timeoutPromise])
-    //     .then((accessToken) => {
-    //       handleTokenRefreshSuccess(accessToken as string);
-    //     })
-    //     .catch((err) => {
-    //       console.log("Erro ao atualizar token:", err);
-    //       handleTokenRefreshFailure(err);
-    //     })
-    //     .finally(() => {
-    //       isRefreshing = false;
-    //     });
-    }
+          return httpClient(originalRequest);
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao tentar atualizar o token:", err);
+    
+        if (!window.location.pathname.includes("/login")) {
+          window.location.href = "/login";
+        }
+      })
+
+    return;
+  }
 
   return Promise.reject(error);
 }
-
-
-
 
 export var api = {
   getAllPosts: async () => {
@@ -125,4 +92,9 @@ export var api = {
 
     return response.data;
   },
+  isLoggedIn: async () => {
+    const response = await httpClient.get("/api/auth/isLogged");
+
+    return response?.data;
+  }
 };

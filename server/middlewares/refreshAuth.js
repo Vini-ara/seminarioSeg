@@ -2,11 +2,11 @@ import jwt from "jsonwebtoken";
 import { CookieUtils } from "../utils/cookie.utils.js";
 
 export default function (req, res, next) {
-  const token = CookieUtils.getCookieValue(req, 'accessToken');
+  const token = CookieUtils.getCookieValue(req, 'refreshToken');
 
   if (token) {
     try {
-      var decoded = jwt.verify(token, process.env.JWT_AT_SECRET_KEY);
+      var decoded = jwt.verify(token, process.env.JWT_RT_SECRET_KEY);
 
       req.user = decoded;
       next();

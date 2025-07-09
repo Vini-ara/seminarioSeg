@@ -108,11 +108,6 @@ const feedPage = () => {
   };
 
   var render = async () => {
-    if (!auth.state.user) {
-      window.location.href = "/login";
-      return;
-    }
-
     const posts = await api.getAllPosts();
 
     components.feed.setPosts(posts);

@@ -2,10 +2,14 @@ import * as dotenv from 'dotenv';
 import https from 'https';
 import express from "express";
 import { AppModule } from "./app.module.js";
+import cookieParser from 'cookie-parser';
 
 dotenv.config()
 
 const app = express();
+
+app.use(cookieParser(process.env.COOKIE_SECRET));
+
 app.use(express.json());
 app.use(new AppModule().router);
 
