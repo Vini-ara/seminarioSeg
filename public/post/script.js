@@ -148,9 +148,7 @@ var commentList = () => {
 
     const deleteWholePostBtn = document.getElementById(`delete${postInfo.id}`);
     deleteWholePostBtn?.addEventListener("click", async () => {
-      const accessToken = localStorage.getItem("accessToken");
-
-      await api.deletePost(accessToken, postInfo.id);
+      await api.deletePost(postInfo.id);
 
       window.location.href = "/feed";
     });

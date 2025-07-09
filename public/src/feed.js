@@ -23,10 +23,11 @@ export const feed = (rootElement = document.querySelector(".feed")) => {
       const deleteButton = document.getElementById(`delete${state.posts[i].id}`)
       if(deleteButton) {
         deleteButton.addEventListener("click", async () => {
-          const aceesToken = localStorage.getItem("accessToken")
           const postId = state.posts[i].id
 
-          await api.deletePost(aceesToken,postId)
+          await api.deletePost(postId)
+
+          window.location.reload()
         })
       }
     }
