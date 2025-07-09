@@ -110,12 +110,13 @@ main {
 }
 
 .modalActions button {
-  color: white;
+  color: #000;
   font-weight: bold;
   font-size: 1.15rem;
 }
 
 .modalSubmitBtn {
+  color: #FFF !important;
   margin-left: 1rem;
   background-color: var(--green);
   padding: 0.75rem;

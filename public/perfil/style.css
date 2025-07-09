@@ -24,6 +24,7 @@
     border-width: 0 1px 1px 1px;
     border-color: #71767B;
     position: relative;
+    background: var(--lighter-blue);
 }
 
 .userInfo h3 {
@@ -52,7 +53,7 @@
   position: absolute;
   border: 1px solid black;
   padding: .5rem 1rem;
-  background-color: var(--lighter-blue); 
+  background-color: var(--green); 
   color: white;
   font-weight: bold;
   font-size: 1.15rem;
@@ -80,7 +81,7 @@
 } 
 
 .userPosts h3:first-of-type { 
-  color: white;
+  color: black;
   align-self: flex-start;
   margin-left: 1%;
 }

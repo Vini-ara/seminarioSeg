@@ -40,16 +40,6 @@ export const post = (postInfo, userInfo, isComment = false) => {
                 <div class="postContent">
                   ${postInfo.content}
                 </div>
-                ${
-                  !isComment
-                    ? `
-                  <div class="postActions">
-                    <a href="/post/?id=${postInfo.id}">
-                      <img src="../common/assets/Comment.png" alt="Comment button">
-                    </a>
-                  </div>`
-                    : ""
-                }
     `;
 
   return postElem;
