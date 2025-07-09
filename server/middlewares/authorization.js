@@ -6,7 +6,7 @@ export default function (req, res, next) {
 
   if (token) {
     try {
-      var decoded = jwt.verify(token, process.env.JWT_AT_SECRET_KEY);
+      var decoded = jwt.verify(token, process.env.JWT_AT_PUBLIC_KEY, { algorithms: ['PS256'] });
 
       req.user = decoded;
       next();

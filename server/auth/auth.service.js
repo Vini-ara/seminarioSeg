@@ -40,8 +40,9 @@ export class AuthService {
       throw new Error("Refresh token not found or invalid");
     }
 
-    const accessToken = jwt.sign(payload, process.env.JWT_AT_SECRET_KEY, {
+    const accessToken = jwt.sign(payload, process.env.JWT_AT_PRIVATE_KEY, {
       expiresIn: parseInt(process.env.JWT_AT_EXPIRES_IN),
+      algorithm: 'PS256',
     });
 
     CookieUtils.setHeaderWithCookie(response, {
@@ -94,12 +95,14 @@ export class AuthService {
       is_admin: user.isAdmin,
     };
 
-    const accessToken = jwt.sign(payload, process.env.JWT_AT_SECRET_KEY, {
+    const accessToken = jwt.sign(payload, process.env.JWT_AT_PRIVATE_KEY, {
       expiresIn: parseInt(process.env.JWT_AT_EXPIRES_IN),
+      algorithm: 'PS256',
     });
 
-    const refreshToken = jwt.sign(payload, process.env.JWT_RT_SECRET_KEY, {
+    const refreshToken = jwt.sign(payload, process.env.JWT_RT_PRIVATE_KEY, {
       expiresIn: parseInt(process.env.JWT_RT_EXPIRES_IN),
+      algorithm: 'PS256',
     });
 
     await this.prismaService.user.update({
