@@ -12,14 +12,14 @@
     <header id="header">
         <div class="logo">
             <a href="../feed">
-                <img src="../common/assets/Logo.png" alt="logo">
+              <img src="../common/assets/logoUnb.png" alt="logo">
             </a>
         </div>
         <div class="info">
         </div>
     </header>
     <main>
-        <img src="../common/assets/fundoCjr.png" class="fundo" alt="fundo">
+        <img src="../common/assets/logoUnb.png" class="fundo" alt="fundo">
         <form method="POST" enctype="multipart/form-data">
             <div class="formImage">
               <img src="../common/assets/pfp.png" alt="pfp" id="profilePicInput">
@@ -30,7 +30,6 @@
             </div>
             <input type="text" name="nome" placeholder="Nome" required>
             <input type="text" name="genero" placeholder="Genêro" required>
-            <input type="text" name="cargo" placeholder="cargo" required>
             <input type="email" name="email" placeholder="E-mail" required>
             <input type="password" name="password" placeholder="Senha" required>
             <a href="../login">Possui conta? Acesse aqui!</a>
@@ -38,6 +37,7 @@
         </form>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
     <script src="script.js" type="module"></script>
 </body>
 

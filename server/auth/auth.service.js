@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 const defaultUserSelect = {
   id: true,
@@ -8,13 +9,6 @@ const defaultUserSelect = {
   image: true,
   isAdmin: true,
   createdAt: true,
-  cargo: {
-    select: {
-      id: true,
-      nome: true,
-      nucleo: true,
-    },
-  },
 };
 
 export class AuthService {
@@ -34,13 +28,16 @@ export class AuthService {
       is_admin: user.isAdmin,
     };
 
-    const accessToken = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
-      expiresIn: "2 days",
+    const accessToken = jwt.sign(payload, process.env.JWT_AT_SECRET_KEY, {
+      expiresIn: parseInt(process.env.JWT_AT_EXPIRES_IN),
     });
 
     return {
       accessToken,
-      expiresIn: Math.floor(new Date().getTime() / 1000) + 60 * 60 * 24 * 2, // daqui a dois dias
+      expiresIn: new Date().setTime(
+        new Date().getTime() +
+          parseInt(process.env.JWT_AT_EXPIRES_IN) * 1000,
+      ),
       user,
     };
   }
@@ -50,7 +47,12 @@ export class AuthService {
       where: { email },
     });
 
-    if (user?.password != password || !user) {
+    if (!user) {
+      throw new Error("usuario ou senha invalidos");
+    }
+
+    if (bcrypt.compareSync(password, user.password) === false) {
+      console.error("senha invalida");
       throw new Error("usuario ou senha invalidos");
     }
 
@@ -60,15 +62,18 @@ export class AuthService {
       is_admin: user.isAdmin,
     };
 
-    const accessToken = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
-      expiresIn: "2 days",
+    const accessToken = jwt.sign(payload, process.env.JWT_AT_SECRET_KEY, {
+      expiresIn: process.env.JWT_AT_EXPIRES_IN,
     });
 
     const { _password, ...userWithoutPassword } = user;
 
     return {
       accessToken,
-      expiresIn: Math.floor(new Date().getTime() / 1000) + 60 * 60 * 24 * 2, // daqui a dois dias
+      expiresIn: new Date().setTime(
+        new Date().getTime() +
+          parseInt(process.env.JWT_AT_EXPIRES_IN) * 1000,
+      ),
       userWithoutPassword,
     };
   }

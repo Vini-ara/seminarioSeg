@@ -1,10 +1,11 @@
+import bcrypt from 'bcrypt';
+
 const defaultSelect = {
   id: true, 
   username: true,
   image: true,
   email: true,
   gender: true,
-  cargo: true,
   posts: true
 }
 
@@ -14,8 +15,13 @@ export class UserService {
   }
 
   async create(createUserDto) {
+    const password = bcrypt.hashSync(createUserDto.password, 10);
+
     return await this.prisma.user.create({
-      data: createUserDto,
+      data: {
+        ...createUserDto,
+        password,
+      },
       select: defaultSelect,
     });
   }

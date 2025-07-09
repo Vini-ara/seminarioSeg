@@ -11,6 +11,14 @@ header {
 
 header .logo {
   cursor: pointer;
+  width: 5rem;
+  height: 3rem;
+}
+
+header .logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 header .info {
@@ -36,7 +44,7 @@ header .info .username {
 }
 
 header .info button {
-  background-color: var(--darker-blue);
+  background-color: var(--lighter-blue);
   border: none;
   outline: none;
   font-size: 1rem;
@@ -45,6 +53,10 @@ header .info button {
   color: white;
   font-weight: bold;
   cursor: pointer;
+}
+
+header .info button:hover {
+  opacity: 0.8;
 }
 
 header .info a, header .info a:visited {

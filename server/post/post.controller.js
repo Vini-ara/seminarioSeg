@@ -11,8 +11,8 @@ export class PostController {
     this.postService = postService;
     this.router = express.Router();
     this.router.post("/", authorization, this.create.bind(this));
-    this.router.get("/", this.findAll.bind(this));
-    this.router.get("/:id", this.findOne.bind(this));
+    this.router.get("/", authorization, this.findAll.bind(this));
+    this.router.get("/:id", authorization, this.findOne.bind(this));
     this.router.put("/:id", authorization, this.update.bind(this));
     this.router.delete("/:id", authorization,this.remove.bind(this));
   }
@@ -38,7 +38,7 @@ export class PostController {
 
   async findOne(req, res, next) {
     try {
-      const post = await this.postService.findOne(+req.params.id);
+      const post = await this.postService.findOne(req.params.id);
       res.json(post);
     } catch (err) {
       next(err);
@@ -48,7 +48,7 @@ export class PostController {
   async update(req, res, next) {
     try {
       const updatePostDto = UpdatePostDto.fromRequest(req.body);
-      const post = await this.postService.update(+req.params.id, updatePostDto);
+      const post = await this.postService.update(req.params.id, updatePostDto);
       res.json(post);
     } catch (err) {
       next(err);
@@ -57,7 +57,7 @@ export class PostController {
 
   async remove(req, res, next) {
     try {
-      const post = await this.postService.remove(+req.params.id);
+      const post = await this.postService.remove(req.params.id);
       res.json(post);
     } catch (err) {
       console.log(err)

@@ -20,7 +20,7 @@ var authorization = async () => {
   };
 
   let refresh = async (id, accessToken) => {
-    const res = await api.refreshAuth(id, accessToken);
+    const res = await api.refreshAuth(id);
 
     if (res) {
       localStorage.setItem("accessToken", res.accessToken);
@@ -49,7 +49,10 @@ var authorization = async () => {
 
     if (isTokenExpired) return;
 
-    await refresh(oldAccessToken);
+    await refresh();
+
+    console.log("User logged in from localStorage");
+    console.log(state.user);
   };
 
   await setup();

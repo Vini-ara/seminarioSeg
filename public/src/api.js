@@ -1,108 +1,128 @@
+export const httpClient = axios.create();
+
+httpClient.interceptors.request.use(
+  async (config) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+      }
+
+      config.headers["Content-Type"] = "application/json";
+
+      return config;
+    } catch (error) {
+      console.error("Erro ao obter token:", error);
+      return config;
+    }
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+httpClient.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    console.log("Erro na resposta:", error);
+    return responseErrorInterceptor(error);
+  }
+);
+
+function responseErrorInterceptor(error) {
+  const originalRequest = error.config;
+
+  if (
+    error.response?.status === 403
+  ) {
+    localStorage.clear();
+
+    console.log("Token expirado ou inválido, redirecionando para login...");
+
+    window.location.href = "/login";
+    return;
+
+    // originalRequest._retry = true; // Evitar retry infinito
+    //
+    // if (!isRefreshing) {
+    //   isRefreshing = true;
+    //
+    //   // Timeout na renovação do token
+    //   const refreshPromise = refreshToken();
+    //   const timeoutPromise = new Promise((_, reject) =>
+    //     setTimeout(() => reject(new Error("Timeout na renovação")), 10000)
+    //   );
+    //
+    //   Promise.race([refreshPromise, timeoutPromise])
+    //     .then((accessToken) => {
+    //       handleTokenRefreshSuccess(accessToken as string);
+    //     })
+    //     .catch((err) => {
+    //       console.log("Erro ao atualizar token:", err);
+    //       handleTokenRefreshFailure(err);
+    //     })
+    //     .finally(() => {
+    //       isRefreshing = false;
+    //     });
+    }
+
+  return Promise.reject(error);
+}
+
+
+
+
 export var api = {
   getAllPosts: async () => {
-    const response = await fetch("/api/post");
+    const response = await httpClient.get("/api/post");
 
-    return response.json();
+    return response.data;
   },
   getUniquePost: async (id) => {
-    const response = await fetch(`/api/post/${id}`)
+    const response = await httpClient.fetch(`/api/post/${id}`)
     
-    return response.json()
+    return response.data;
   },
-  createPost: async (accessToken, body) => {
-    const opt = {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify(body),
-    } 
+  createPost: async (body) => {
+    const response = await httpClient.post("/api/post", body);
 
-    const response = await fetch("/api/post", opt);
-
-    return response.json();
+    return response.data;
   },
-  deletePost: async (accessToken, postId) => {
-    const opt = {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
+  deletePost: async (postId) => {
+    const response = await httpClient.delete(`/api/post/${postId}`)
 
-    const response = await fetch(`/api/post/${postId}`, opt)
-
-    return response.json()
+    return response.data;
   },
-  createComment: async (accessToken, body) => {
-    const opt = {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify(body),
-    }
+  createComment: async (body) => {
+    const response = await fetch("/api/comment", body)
 
-    const response = await fetch("/api/comment", opt)
-
-    return response.json()
+    return response.data;
   },
-  deleteComment: async (accessToken, id) => {
-    const opt = {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      },
-    }
+  deleteComment: async (id) => {
+    const response = await httpClient.delete(`/api/comment/${id}`)
 
-    const response = await fetch(`/api/comment/${id}`, opt)
-
-    return response.json()
+    return response.data;
   },
   createUser: async (body) => {
-    const opt = {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(body),
-    };
+    const response = await httpClient.post("/api/user", body)
 
-    const response = await fetch("/api/user", opt)
-
-    return response.json()
+    return response.data;
   },
   findUser: async (id) => {
-    const response = await fetch(`/api/user/${id}`) 
+    const response = await httpClient.get(`/api/user/${id}`) 
 
-    return response.json()
+    return response.data;
   },
   login: async (body) => {
-    const opt = {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(body),
-    };
+    const response = await httpClient.post("/api/auth/login", body);
     
-    const response = await fetch("/api/auth/login", opt);
-    
-    return response.json();
+    return response.data;
   },
-  refreshAuth: async (accessToken) => {
-    const opt = {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
+  refreshAuth: async () => {
+    const response = await httpClient.get("/api/auth/refresh");
 
-    const response = await fetch("/api/auth/refresh", opt);
-
-    return response.json();
+    return response.data;
   },
 };

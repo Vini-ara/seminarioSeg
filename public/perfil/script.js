@@ -42,10 +42,9 @@ const userPostsList = () => {
       );
       if (deleteButton) {
         deleteButton.addEventListener("click", async () => {
-          const aceesToken = localStorage.getItem("accessToken");
           const postId = state.userInfo.posts[i].id;
 
-          await api.deletePost(aceesToken, postId);
+          await api.deletePost(postId);
         });
       }
     }
@@ -80,12 +79,6 @@ const perfil = () => {
             state.userInfo.image
           }" alt="foto de perfil" id="profilePicture">
           <h3>${state.userInfo.username}</h3>
-          <div class="atribute">
-              <img src="../common/assets/cargo.png" alt="icone de cargo">
-              <p>${state.userInfo.cargo.nome} - ${
-      state.userInfo.cargo.nucleo
-    }</p>
-          </div>
           <div class="atribute">
               <img src="../common/assets/email.png" alt="icone de email">
               <p>${state.userInfo.email}</p>

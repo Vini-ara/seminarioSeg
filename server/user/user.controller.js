@@ -36,7 +36,7 @@ export class UserController {
 
   async findOne(req, res, next) {
     try {
-      const user = await this.userService.findOne(+req.params.id);
+      const user = await this.userService.findOne(req.params.id);
       res.json(user);
     } catch (err) {
       next(err);
@@ -46,7 +46,7 @@ export class UserController {
   async update(req, res, next) {
     try {
       const updateUserDto = UpdateUserDto.fromRequest(req.body);
-      const user = await this.userService.update(+req.params.id, updateUserDto);
+      const user = await this.userService.update(req.params.id, updateUserDto);
       res.json(user);
     } catch (err) {
       next(err);
@@ -55,7 +55,7 @@ export class UserController {
 
   async remove(req, res, next) {
     try {
-      const user = await this.userService.remove(+req.params.id);
+      const user = await this.userService.remove(req.params.id);
       res.json(user);
     } catch (err) {
       next(err);

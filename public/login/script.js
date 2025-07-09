@@ -15,6 +15,7 @@ var formLogin = () => {
     senha: "",
   };
 
+
   let formSetup = () => {
     elements.form.addEventListener("submit", formSubmit);
 
@@ -40,10 +41,19 @@ var formLogin = () => {
     window.location.href = window.location.href
   };
 
+  let render = () => {
+    if (auth.state.user) {
+      window.location.href = "/feed";
+      return;
+    }
+
+    formSetup();
+  }
+
   return {
-    formSetup,
+    render
   };
 };
 
-formLogin().formSetup();
+formLogin().render();
 head.render();

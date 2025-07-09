@@ -75,9 +75,7 @@ var createPostModal = (refreshPage) => {
       content: result,
     };
 
-    const accessToken = localStorage.getItem("accessToken");
-
-    await api.createPost(accessToken, body);
+    await api.createPost(body);
 
     state.simpleMde.value("");
     toggleModal();
@@ -110,7 +108,11 @@ const feedPage = () => {
   };
 
   var render = async () => {
-    console.log("renderizando");
+    if (!auth.state.user) {
+      window.location.href = "/login";
+      return;
+    }
+
     const posts = await api.getAllPosts();
 
     components.feed.setPosts(posts);

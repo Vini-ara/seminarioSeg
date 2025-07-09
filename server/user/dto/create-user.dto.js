@@ -4,7 +4,6 @@ export class CreateUserDto {
     this.username = body.username;
     this.password = body.password;
     this.gender = body.gender;
-    this.cargoId = body.cargoId;
     this.image = body.image;
   }
 

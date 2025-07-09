@@ -38,7 +38,7 @@ export class CommentController {
 
   async findOne(req, res, next) {
     try {
-      const post = await this.commentService.findOne(+req.params.id);
+      const post = await this.commentService.findOne(req.params.id);
       res.json(post);
     } catch (err) {
       next(err);
@@ -48,7 +48,7 @@ export class CommentController {
   async update(req, res, next) {
     try {
       const updateCommentDto = UpdateCommentDto.fromRequest(req.body);
-      const post = await this.commentService.update(+req.params.id, updateCommentDto);
+      const post = await this.commentService.update(req.params.id, updateCommentDto);
       res.json(post);
     } catch (err) {
       next(err);
@@ -57,7 +57,7 @@ export class CommentController {
 
   async remove(req, res, next) {
     try {
-      const post = await this.commentService.remove(+req.params.id);
+      const post = await this.commentService.remove(req.params.id);
       res.json(post);
     } catch (err) {
       next(err);
