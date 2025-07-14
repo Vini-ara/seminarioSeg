@@ -4,7 +4,6 @@ export class UpdateUserDto {
     this.username = body.username;
     this.password = body.password;
     this.name = body.name;
-    this.gender = body.gender;
     this.image = body.image;
   }
 

@@ -9,7 +9,6 @@ var formCadastro = () => {
     imagePreview: document.getElementById("profilePicInput"),
     imageInput: document.getElementById("imageInput"),
     nome: document.querySelector('input[name="nome"]'),
-    genero: document.querySelector('input[name="genero"]'),
     email: document.querySelector('input[name="email"]'),
     senha: document.querySelector('input[name="password"]'),
   };
@@ -17,7 +16,6 @@ var formCadastro = () => {
   let state = {
     imageFile: "",
     nome: "",
-    genero: "",
     email: "",
     senha: "",
   };
@@ -50,10 +48,6 @@ var formCadastro = () => {
       state.nome = e.target.value;
     });
 
-    elements.genero.addEventListener("change", (e) => {
-      state.genero = e.target.value;
-    });
-
     elements.email.addEventListener("change", (e) => {
       state.email = e.target.value;
     });
@@ -70,17 +64,18 @@ var formCadastro = () => {
       email: state.email ? state.email : elements.email.value,
       username: state.nome,
       password: state.senha ? state.senha : elements.senha.value,
-      gender: state.genero,
       image: state.imageFile,
     };
 
-    await api.createUser(requestBody).catch((err) => {
+    await api.createUser(requestBody)
+    .then(() => {
+      window.location.href = "/login"
+      elements.form.reset();
+    })
+    .catch((err) => {
       alert("Erro ao criar usuário: " + err.message);
       console.error(err);
     });
-
-    elements.form.reset();
-    window.location.href = "/login"
   };
 
   return {

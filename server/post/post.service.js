@@ -63,7 +63,20 @@ export class PostService {
     });
   }
 
-  async remove(id) {
+  async remove(id, user) {
+    const post = await this.prisma.post.findUnique({
+      where: { id },
+      select: { id: true, userId: true },
+    });
+
+    if (!post) {
+      throw new Error("Post not found");
+    }
+
+    if (post.userId !== user.id) {
+      throw new Error("You can only delete your own posts.");
+    }
+
     return await this.prisma.post.delete({
       where: { id },
       select: defaultPostSelect,

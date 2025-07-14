@@ -1,6 +1,9 @@
 import express from "express";
 import authorization from "../middlewares/authorization.js";
 import refreshAuth from "../middlewares/refreshAuth.js";
+import { CookieUtils } from "../utils/cookie.utils.js";
+
+import jwt from "jsonwebtoken";
 
 export class AuthController {
   basePath = "/auth";
@@ -11,12 +14,13 @@ export class AuthController {
     this.router.post("/login", this.login.bind(this));
     this.router.get("/refresh", refreshAuth,this.refresh.bind(this));
     this.router.post("/logout", authorization, this.logout.bind(this));
-    this.router.get("/isLogged", authorization, this.isLoggedIn.bind(this));
+    this.router.get("/isLogged", this.isLoggedIn.bind(this));
   }
 
   async login(req, res, next) {
     try {
-      const response = await this.authService.generateAccessToken(
+      console.log("Login attempt with email:", req.body.email);
+      const response = await this.authService.login(
         req.body.email,
         req.body.password,
         res
@@ -31,20 +35,29 @@ export class AuthController {
 
   async isLoggedIn(req, res, next) {
     try {
-      if (!req.user) {
-        return res.status(200).json({
-          isLoggedIn: false,
-          user: null,
-        });
+      let decoded = null;
+
+      const refreshToken = CookieUtils.getCookieValue(req, "refreshToken") || null;
+
+      decoded = jwt.verify(refreshToken, process.env.JWT_RT_PUBLIC_KEY, { algorithms: ['PS256'] });
+
+      req.user = decoded;
+
+      const userData = await this.authService.refreshAuth(req, res);
+      
+      if (!userData) {
+        return res.status(401).json({ isLoggedIn: false, message: "Not authorized get Resource" });
       }
-      
-      const userData = await this.authService.getUserData(req.user.id);
-      
+
       res.status(200).json({
         isLoggedIn: true,
-        user: userData,
+        user: userData.user,
       });
     } catch (err) {
+      if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
+        return res.status(401).json({ isLoggedIn: false, message: "Not authorized get Resource" });
+      }
+
       next(err);
     }
   }
@@ -52,8 +65,6 @@ export class AuthController {
   async logout(req, res, next) {
     try {
       const response = await this.authService.logout(req.user.id, res);
-
-      console.log("logout", response);
 
       res.status(200).json(response);
     } catch (err) {

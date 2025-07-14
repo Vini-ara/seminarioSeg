@@ -39,7 +39,7 @@ var authorization = async () => {
   let isLoggedIn = async () => {
     const res = await api.isLoggedIn();
 
-    if (res && res.isLoggedIn) {
+    if (res) {
       state.user = res.user;
       return true;
     }
@@ -48,18 +48,23 @@ var authorization = async () => {
   }
 
   let setup = async () => {
-    const isLogged = await isLoggedIn();
+    await isLoggedIn()
+      .then((isLogged) => {
+        if (isLogged) {
+          if (window.location.pathname.includes('/login')) {
+            window.location.href = "/feed";
+          }
+          return;
+        }
+        
+        if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/cadastro')) {
+          window.location.href = "/login";
+        }
 
-    if (isLogged) {
-      if (window.location.pathname.includes('/login')) {
-        window.location.href = "/feed";
-      }
-      return;
-    }
-    
-    if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/cadastro')) {
-      window.location.href = "/login";
-    }
+      })
+      .catch((err) => {
+        console.error("Error checking login status:", err);
+      })
   };
 
   await setup();

@@ -46,6 +46,12 @@ export class UserController {
   async update(req, res, next) {
     try {
       const updateUserDto = UpdateUserDto.fromRequest(req.body);
+      const authUser = req.user;
+
+      if (authUser.id !== req.params.id) {
+        throw new Error("You can only update your own profile.");
+      }
+
       const user = await this.userService.update(req.params.id, updateUserDto);
       res.json(user);
     } catch (err) {
@@ -55,6 +61,12 @@ export class UserController {
 
   async remove(req, res, next) {
     try {
+      const authUser = req.user;
+
+      if (authUser.id !== req.params.id) {
+        throw new Error("You can only delete your own profile.");
+      }
+
       const user = await this.userService.remove(req.params.id);
       res.json(user);
     } catch (err) {

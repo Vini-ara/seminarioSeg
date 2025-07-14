@@ -20,6 +20,7 @@ export class UserService {
     return await this.prisma.user.create({
       data: {
         ...createUserDto,
+        gender: '',
         password,
       },
       select: defaultSelect,

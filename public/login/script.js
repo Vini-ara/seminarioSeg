@@ -15,7 +15,6 @@ var formLogin = () => {
     senha: "",
   };
 
-
   let formSetup = () => {
     elements.form.addEventListener("submit", formSubmit);
 
@@ -30,7 +29,7 @@ var formLogin = () => {
 
   let formSubmit = async (e) => {
     e.preventDefault();
-
+    
     state.email = elements.email.value;
     state.senha = elements.senha.value;
 

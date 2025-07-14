@@ -14,17 +14,21 @@ function responseErrorInterceptor(error) {
   const originalRequest = error.config;
 
   if (
-    error.response?.status === 401
+    error.response?.status === 401 &&
+    !originalRequest._retry &&
+    !originalRequest.url.includes("/isLogged")
   ) {
     console.log("Token expirado ou inválido, redirecionando para login...");
+
+    originalRequest._retry = true;
 
     axios.get("/api/auth/refresh")
       .then((res) => {
         if (res.data) {
-          // recarrega a pagina
+          httpClient(originalRequest);
           window.location.reload();
 
-          return httpClient(originalRequest);
+          return;
         }
       })
       .catch((err) => {
@@ -35,7 +39,7 @@ function responseErrorInterceptor(error) {
         }
       })
 
-    return;
+    return  httpClient(originalRequest);
   }
 
   return Promise.reject(error);

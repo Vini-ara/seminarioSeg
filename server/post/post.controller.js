@@ -20,6 +20,13 @@ export class PostController {
   async create(req, res, next) {
     try {
       const createPostDto = CreatePostDto.fromRequest(req.body);
+
+      const authUser = req.user;
+
+      if (authUser.id !== createPostDto.userId) {
+        throw new Error("You can only create posts for your own profile.");
+      }
+
       const post = await this.postService.create(createPostDto);
       res.status(201).json(post);
     } catch (err) {
@@ -57,7 +64,7 @@ export class PostController {
 
   async remove(req, res, next) {
     try {
-      const post = await this.postService.remove(req.params.id);
+      const post = await this.postService.remove(req.params.id, req.user);
       res.json(post);
     } catch (err) {
       console.log(err)

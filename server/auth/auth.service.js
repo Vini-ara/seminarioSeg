@@ -30,24 +30,11 @@ export class AuthService {
 
     const { refreshToken, ...userData } = user;
 
-    const payload = {
-      id: user.id,
-      nome: user.username,
-      is_admin: user.isAdmin,
-    };
-
-    if (!refreshToken || refreshToken !== cookieRefreshToken) {
-      throw new Error("Refresh token not found or invalid");
+    if (!cookieRefreshToken || cookieRefreshToken !== refreshToken) {
+      return null;
     }
 
-    const accessToken = jwt.sign(payload, process.env.JWT_AT_PRIVATE_KEY, {
-      expiresIn: parseInt(process.env.JWT_AT_EXPIRES_IN),
-      algorithm: 'PS256',
-    });
-
-    CookieUtils.setHeaderWithCookie(response, {
-      accessToken,
-    }, process.env.JWT_AT_EXPIRES_IN);
+    await this.generateTokens(userData, response);
 
     return {
       user: userData,
@@ -87,20 +74,7 @@ export class AuthService {
     return { message: "Logout successful" };
   }
 
-  async generateAccessToken(email, password, response) {
-    const user = await this.prismaService.user.findUnique({
-      where: { email },
-    });
-
-    if (!user) {
-      throw new Error("usuario ou senha invalidos");
-    }
-
-    if (bcrypt.compareSync(password, user.password) === false) {
-      console.error("senha invalida");
-      throw new Error("usuario ou senha invalidos");
-    }
-
+  async generateTokens(user, response) {
     const payload = {
       id: user.id,
       nome: user.username,
@@ -122,7 +96,6 @@ export class AuthService {
       data: { refreshToken },
     });
 
-    const { _password, ...userWithoutPassword } = user;
 
     CookieUtils.setHeaderWithCookie(response, {
       accessToken,
@@ -130,6 +103,28 @@ export class AuthService {
     CookieUtils.setHeaderWithCookie(response, {
       refreshToken,
     }, parseInt(process.env.JWT_RT_EXPIRES_IN));
+  }
+
+
+  async login(email, password, response) {
+    console.log("Login attempt for email:", email);
+    const user = await this.prismaService.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      throw new Error("usuario ou senha invalidos");
+    }
+
+    if (bcrypt.compareSync(password, user.password) === false) {
+      console.error("senha invalida");
+      throw new Error("usuario ou senha invalidos");
+    }
+
+    await this.generateTokens(user, response);
+
+
+    const { _password, ...userWithoutPassword } = user;
 
     return {
       user: userWithoutPassword,
